@@ -1,1 +1,58 @@
-<p>signup works!</p>
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <form class="titles border border-light p-5 rounded-5">
+        <h4 class="mb-3 text-white">Signup Page</h4>
+        <div class="mb-4">
+            <h5>Please enter your credentials below</h5>
+        </div>
+
+        <div class="mb-3">
+            <label for="username" class="form-label text-white">Username</label>
+            <input type="text" class="form-control" id="username" v-model="username">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label text-white">Email</label>
+            <input type="email" class="form-control" id="email" v-model="email">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label text-white">Password</label>
+            <input type="password" class="form-control" id="password" v-model="password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="background-color: transparent; border: 2px solid white; color: white; padding: 10px 20px; font-size: 16px; cursor: pointer; transition: background-color 0.3s, color 0.3s;">Signup</button>
+
+    </form>
+
+    <div class="modal" id="signupFail" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Upload Failed</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- <p>{{this.message}}</p> -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+    </div>
+</div>
+    <div class="modal" id="signupSuccess" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Upload Success</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+        </div>
+        <div class="modal-body">
+            <!-- <p>{{this.message}}</p> -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+    </div>
+</div>
+</div>

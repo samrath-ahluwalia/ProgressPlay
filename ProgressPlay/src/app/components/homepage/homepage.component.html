@@ -1,1 +1,56 @@
-<p>homepage works!</p>
+<div data-bs-theme="dark" class="pb-5">
+    <app-navbar></app-navbar>
+    <div class="login-welcome mt-5">
+      <div>
+        <br />
+        <h2 class="login-welcome mt-3 mb-4">WELCOME, 
+            <!-- {{ $route.params.username }} -->
+        </h2>
+      </div>
+    </div>
+
+    <div class="container mt-5">
+      <h3 class="text-center mb-4 ">Frequently Asked Questions</h3>
+      <div class="row mt-5 mb-4">
+        <div v-for="(question, index) in questions" :key="index" class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <!-- <h5 class="card-title">{{ question.title }}</h5> -->
+              <!-- <p class="card-text" v-if="expandedIndex === index">{{ question.answer }}</p> -->
+              <button class="btn btn-primary mt-5" style="background-color: transparent; border: 2px solid white;">
+                <!-- {{ expandedIndex === index ? 'Hide Answer' : 'Show Answer' }} -->
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary mt-5" style="background-color: transparent; border: 2px solid white;">
+          <!-- {{ isExtended ? 'View Less' : 'View More' }} -->
+        </button>
+      </div>
+    </div>
+
+    <div class="container vh-99 mt-5" v-if="isExtended">
+      <div class="container text-dark-emphasis d-flex align-items-center justify-content-center flex-column">
+        <div id="carouselExampleIndicators" class="carousel slide mx-auto" style="width: 80%;" data-bs-ride="carousel">
+          <ol class="carousel-indicators">
+            <li v-for="(slide, index) in slideContent.length" :key="index" :data-bs-target="'#carouselExampleIndicators'" :data-bs-slide-to="index" :class="{ 'active': index === 0 }"></li>
+          </ol>      
+          <div class="carousel-inner justify-content-center">
+            <div v-for="(slide, index) in slideContent" :key="index" :class="{ 'carousel-item': true, 'active': index === 0 }">
+              <img :src="slide.image" class="d-block w-75 h-75 mx-auto mb-3" :alt="'Reward Slide ' + (index + 1)">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
