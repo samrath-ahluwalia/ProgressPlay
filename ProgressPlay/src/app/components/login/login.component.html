@@ -1,1 +1,18 @@
-<p>login works!</p>
+<div class="d-flex align-items-center justify-content-center vh-100" style="text-align:center;">
+        
+    <form class=" border border-light p-5 rounded-5 ">
+        <h4 class="mb-3 text-white">Sign in</h4>
+     
+        <br>
+        <div class="mb-3">
+        <label for="username" class="form-label text-white p-3">Username</label>
+        <input type="text" class="form-control" data-bs-theme="dark" id="username" v-model="username">
+           </div>
+        <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label text-white p-3">Password</label>
+        <input type="password" class="form-control" data-bs-theme="dark" id="exampleInputPassword1" v-model="password">
+        </div>
+        <button type="submit" class="btn btn-primary mt-2" v-on:click="login"style="background-color: transparent; border: 2px solid white; color: white; padding: 10px 20px; font-size: 16px; cursor: pointer; transition: background-color 0.3s, color 0.3s;">Submit</button>
+    </form> 
+    
+</div>
