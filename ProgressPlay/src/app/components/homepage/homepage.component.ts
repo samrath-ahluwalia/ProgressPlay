@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
+import { LocalService } from '../../services/data/local.service';
+import { Keys } from '../../models/Enum/Keys';
 
 @Component({
   selector: 'app-homepage',
@@ -22,8 +24,9 @@ export class HomepageComponent implements OnInit {
     { title: 'How is my score calculated? ', answer: 'Upon selecting the checkbox located in the dashboard, a dialog box will appear, seeking confirmation for marking the task as completed. Should you affirm this action, your score will increase by two points. This score is maintained and associated with your profile. You can view your accumulated points in the Rewards section by selecting the View Scores option. This system encourages and rewards task completion. Your score just gets calculated depending upon how many tasks that you have created are marked as done by you after you finished your task you get a +2 score for every done task' },
     { title: 'How can I claim my rewards?', answer: 'The status of rewards, which currently take the form of badges, is contingent upon your accumulated score. You can view the complete list of available rewards by selecting the My Rewards option. Here, you will find rewards categorized as either Locked or Unlocked. Unlocked rewards are eligible for redemption upon selection, while locked rewards remain inaccessible until the requisite score is achieved. This system ensures that rewards are distributed based on user performance and engagement.' },
   ];
+  username: string = "";
 
-  constructor () { }
+  constructor (private _localService: LocalService) { }
 
   ngOnInit(): void {
     this.slideContent =  [
@@ -31,6 +34,7 @@ export class HomepageComponent implements OnInit {
       { image: "images/car2.png", caption: "", data: "" },
       { image: "images/car1.png", caption: "", data: "" }
     ]
+    this.username = this._localService.get(Keys.ActiveUsername, false)
   }
 
   toggleExpansion(index: number){
