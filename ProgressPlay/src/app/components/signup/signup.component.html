@@ -7,52 +7,52 @@
 
         <div class="mb-3">
             <label for="username" class="form-label text-white">Username</label>
-            <input type="text" class="form-control" id="username" [(ngModel)]="signupForm.userName">
+            <input type="text" class="form-control" id="username" name="username" [(ngModel)]="signupForm.userName">
         </div>
 
         <div class="mb-3">
             <label for="email" class="form-label text-white">Email</label>
-            <input type="email" class="form-control" id="email" [(ngModel)]="signupForm.email">
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="signupForm.email">
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label text-white">Password</label>
-            <input type="password" class="form-control" id="password" [(ngModel)]="signupForm.password">
+            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="signupForm.password">
         </div>
         <button type="submit" class="btn btn-primary" (click)="handleSignup()" style="background-color: transparent; border: 2px solid white; color: white; padding: 10px 20px; font-size: 16px; cursor: pointer; transition: background-color 0.3s, color 0.3s;">Signup</button>
 
     </form>
 
-    <div class="modal" id="signupFail" tabindex="-1" role="dialog" >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Upload Failed</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal" id="signupSuccess" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Upload Success</h5>
+              <button type="button" class="btn-close" (click)="dismissModal('signupSuccess')"></button>
+            </div>
+            <div class="modal-body">
+              <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="dismissModal('signupSuccess')">Close</button>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
-            <!-- <p>{{this.message}}</p> -->
+      </div>
+      <div class="modal" id="signupFail" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Upload Failed</h5>
+              <button type="button" class="btn-close" (click)="dismissModal('signupFail')"></button>
+            </div>
+            <div class="modal-body">
+              <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="dismissModal('signupFail')">Close</button>
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-    </div>
-    </div>
-</div>
-    <div class="modal" id="signupSuccess" tabindex="-1" role="dialog" >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Upload Success</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-        </div>
-        <div class="modal-body">
-            <!-- <p>{{this.message}}</p> -->
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-    </div>
-    </div>
-</div>
+      </div>
 </div>
