@@ -1,32 +1,59 @@
+/* Keyframes for gradient animation */
 @keyframes gradient-animation {
-    0% {
+  0% {
       background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
   }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
 
+/* Welcome section styles */
 .welcome {
-    text-align: center;
-    padding: 20px 20px 20px 20px;
-    background: linear-gradient(300deg, #032830, #000E1B, #73FBFD);
-    background-size: 200% 200%; 
-    animation: gradient-animation 30s ease infinite;
-    border-radius: 5px;
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(300deg, #032830, #000E1B, #73FBFD);
+  background-size: 200% 200%; 
+  animation: gradient-animation 30s ease infinite;
+  border-radius: 5px;
 }
 
 .welcome h2 {
-    color: white;
-    font-size: 24px;
-    font-style: normal;
+  color: white;
+  font-size: 24px;
+  font-style: normal;
 }
-  
+
 .welcome h5 {
-    color: white;
-    font-size: 18px;
-    margin-top: 10px;
+  color: white;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+/* Ensure welcome section takes full viewport height */
+#welcomeSection {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Sticky navbar that appears after scrolling past the welcome section */
+#navbarSection {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent background for a smooth transition */
+  transition: all 0.5s ease-in-out; /* Smooth transition for the sticky effect */
+}
+/* Smooth scroll behavior for the entire document */
+html {
+  scroll-behavior: smooth;
 }

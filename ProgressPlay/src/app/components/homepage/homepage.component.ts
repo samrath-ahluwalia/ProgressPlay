@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener  } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { LocalService } from '../../services/data/local.service';
@@ -25,6 +25,8 @@ export class HomepageComponent implements OnInit {
     { title: 'How can I claim my rewards?', answer: 'The status of rewards, which currently take the form of badges, is contingent upon your accumulated score. You can view the complete list of available rewards by selecting the My Rewards option. Here, you will find rewards categorized as either Locked or Unlocked. Unlocked rewards are eligible for redemption upon selection, while locked rewards remain inaccessible until the requisite score is achieved. This system ensures that rewards are distributed based on user performance and engagement.' },
   ];
   username: string = "";
+  hasScrolled: boolean = false;
+  isScrollingEnabled: boolean = false;
 
   constructor (private _localService: LocalService) { }
 
@@ -48,4 +50,52 @@ export class HomepageComponent implements OnInit {
   toggleExtended() {
     this.isExtended = !this.isExtended;
   }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    console.log('Scroll Position:', scrollPosition);
+  
+    if (!this.isScrollingEnabled) {
+      if (scrollPosition < 25) {
+        window.scrollTo(0, 0);
+      } else {
+        this.isScrollingEnabled = true;
+  
+        const welcomeSection = document.getElementById('welcomeSection');
+        if (welcomeSection) {
+          const welcomeSectionBottom = welcomeSection.getBoundingClientRect().bottom + window.scrollY;
+          console.log('Welcome Section Bottom:', welcomeSectionBottom);
+  
+          window.scrollTo({
+            top: welcomeSectionBottom,
+            behavior: 'smooth'
+          });
+  
+          // Reset scrolling state after the smooth scroll
+          setTimeout(() => {
+            this.isScrollingEnabled = true;
+            this.hasScrolled = true;
+          }, 1000); // Adjust timeout if needed
+        }
+      }
+    } else if (this.hasScrolled) {
+      const welcomeSection = document.getElementById('welcomeSection');
+      if (welcomeSection) {
+        const welcomeSectionTop = welcomeSection.getBoundingClientRect().top + window.scrollY;
+        console.log('Welcome Section Top:', welcomeSectionTop);
+  
+        if (scrollPosition < welcomeSectionTop) {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+  
+          this.isScrollingEnabled = false;
+          this.hasScrolled = false;
+        }
+      }
+    }
+  }
+  
 }

@@ -1,15 +1,19 @@
 <div data-bs-theme="dark" class="pb-5">
-  <app-navbar></app-navbar>
+  <!-- Navbar Section -->
+  <div id="navbarSection">
+    <app-navbar></app-navbar>
+  </div>
+
   <!-- Welcome Section -->
-  <div class="welcome mt-5 d-flex align-items-center justify-content-center" style="height: 95dvh;">
+  <div class="welcome d-flex align-items-center justify-content-center" id="welcomeSection">
     <div>
       <br />
-      <h2 class=" mt-3 mb-4 text-center">WELCOME, {{ username }}
-      </h2>
+      <h2 class="mt-3 mb-4 text-center">WELCOME, {{ username }}</h2>
     </div>
   </div>
 
-  <div class="container mt-5">
+  <div class="container mt-5" id="faqSection">
+    <br>
     <h3 class="text-center mb-4">Frequently Asked Questions</h3>
     <div class="row mt-5 mb-4">
       <div *ngFor="let question of this.questions; let index = index" :key="index" class="col-md-4">
@@ -18,7 +22,7 @@
             <h5 class="card-title">{{ question.title }}</h5>
             <p class="card-text" *ngIf="expandedIndex === index">{{ question.answer }}</p>
             <button class="btn btn-primary mt-5" style="background-color: transparent; border: 2px solid white;" (click)="toggleExpansion(index)">
-              {{ expandedIndex === index ? 'Hide Answer' : 'Show Answer' }}
+              {{ expandedIndex === index ? "Hide Answer" : "Show Answer" }}
             </button>
           </div>
         </div>
@@ -26,7 +30,7 @@
     </div>
     <div class="text-center">
       <button class="btn btn-primary mt-5" style="background-color: transparent; border: 2px solid white;" (click)="toggleExtended()">
-        {{ isExtended ? 'View Less' : 'View More' }}
+        {{ isExtended ? "View Less" : "View More" }}
       </button>
     </div>
   </div>
@@ -36,16 +40,11 @@
     <div class="container text-dark-emphasis d-flex align-items-center justify-content-center flex-column">
       <div id="carouselExampleIndicators" class="carousel slide mx-auto" style="width: 80%;" data-bs-ride="carousel">
         <ol class="carousel-indicators">
-          <li 
-            *ngFor="let slide of slideContent; let index = index" 
-            [attr.data-bs-target]="'#carouselExampleIndicators'" 
-            [attr.data-bs-slide-to]="index" 
-            [ngClass]="{ 'active': index === 0 }">
-          </li>
-        </ol>      
+          <li *ngFor="let slide of slideContent; let index = index" [attr.data-bs-target]="'#carouselExampleIndicators'" [attr.data-bs-slide-to]="index" [ngClass]="{ 'active': index === 0 }"></li>
+        </ol>
         <div class="carousel-inner justify-content-center">
-          <div *ngFor="let slide of slideContent; let index = index" [ngClass]="{'carousel-item': true, 'active': index === 0}">
-            <img [src]="slide.image" class="d-block w-75 h-75 mx-auto mb-3" [alt]="'Reward Slide ' + (index + 1)">
+          <div *ngFor="let slide of slideContent; let index = index" [ngClass]="{ 'carousel-item': true, 'active': index === 0 }">
+            <img [src]="slide.image" class="d-block w-75 h-75 mx-auto mb-3" [alt]="'Reward Slide ' + (index + 1)" />
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
