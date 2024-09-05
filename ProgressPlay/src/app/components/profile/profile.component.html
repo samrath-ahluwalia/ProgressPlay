@@ -8,11 +8,9 @@
         <hr>
       </div>
       <div class="container-fluid d-flex align-items-center justify-content-center mb-3 mt-4" style="height: 50vh; ">
-          <img class="border border-3 p-1" :src="this.profileImagePath" alt="Image Preview" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+          <img class="border border-3 p-1" [src] = "profileImageUrl" alt="Image Preview" style="max-width: 100%; max-height: 100%; object-fit: contain;">
         <br>
       </div>
-      
-      
       <div class="d-flex justify-content-center mb-3">
         <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#imageUploadModal">Change Profile Picture</button>
       </div>
@@ -39,11 +37,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Image upload form -->
-                    <input type="file" >
+                    <input type="file" (change)="onFileChange($event)">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Upload Image</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="uploadImage()">Upload Image</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
                 </div>
@@ -73,13 +70,13 @@
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Upload Successful</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismissSuccessModal()"></button>
         </div>
         <div class="modal-body">
             Your image has been successfully uploaded.
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="dismissSuccessModal()" >Close</button>
         </div>
     </div>
 </div>
@@ -87,20 +84,20 @@
 
 <!-- Failure Modal -->
 <div class="modal" id="uploadFailureModal" tabindex="-1" role="dialog" >
-<div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Upload Failed</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-        </div>
-        <div class="modal-body">
-            There was an error uploading your image. Please try again.
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Failed</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismissFailureModal()"></button>
+            </div>
+            <div class="modal-body">
+                There was an error uploading your image. Please try again.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="dismissFailureModal()">Close</button>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <div class="modal" id="emailSuccessModal" tabindex="-1" role="dialog" >
@@ -125,13 +122,13 @@
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Upload Failed</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismissEmailFailureModal()"></button>
         </div>
         <div class="modal-body">
             There was an error updating your email. Please try again.
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="dismissEmailFailureModal()" >Close</button>
         </div>
     </div>
 </div>

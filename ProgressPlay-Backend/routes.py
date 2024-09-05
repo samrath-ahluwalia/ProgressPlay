@@ -1,4 +1,5 @@
-from flask import Blueprint, current_app, request, jsonify, render_template
+import uuid
+from flask import Blueprint, current_app, request, jsonify, render_template, send_file
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -82,6 +83,7 @@ def upload_image(username):
     else:
         return jsonify({"error": "No file selected"}), 400
 
+
 @routes.route('/image/<username>', methods=['GET'])
 def get_image(username):
     user = User.query.filter_by(username=username).first()
@@ -93,6 +95,25 @@ def get_image(username):
         "user_id": image.user_id
     }
     return profileimage
+
+@routes.route('/currentimage/<username>', methods=['GET'])
+def currentimage(username):
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    img = Image.query.filter_by(user_id=user.id).first()
+    if not img or not img.file_path:
+        return jsonify({"error": "Image not found"}), 404
+
+    upload_path = current_app.config["UPLOAD_PATH"]
+    image_path = os.path.join(upload_path, img.file_path)
+    print(image_path)
+
+    if not os.path.exists(image_path):
+        return jsonify({"error": "File not found"}), 404
+
+    return send_file(image_path, mimetype='image/jpeg')
 
 @routes.route('/<username>/getalllists')
 @jwt_required()

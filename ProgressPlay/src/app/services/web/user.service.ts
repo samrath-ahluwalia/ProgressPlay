@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Keys } from '../../models/Enum/Keys';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SignupForm } from '../../models/form/signup';
 import { LoginForm } from '../../models/Form/login';
+import { LocalService } from '../data/local.service';
+import { SignupForm } from '../../models/form/signup';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { LoginForm } from '../../models/Form/login';
 export class UserService {
   private baseUrl = 'http://127.0.0.1:5000';
 
-  constructor(private _httpClient: HttpClient) { }
+  constructor(private _httpClient: HttpClient, private _localService: LocalService) { }
 
   signup(signupForm: SignupForm): Observable<any> {
     const url = `${this.baseUrl}/signup`;

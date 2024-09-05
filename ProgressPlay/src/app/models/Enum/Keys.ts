@@ -1,5 +1,6 @@
 export enum Keys{
     ActiveUsername = "ActiveUsername",
     ActiveUserID = "ActiveUserID",
-    accessToken = "AccessToken"
+    accessToken = "AccessToken",
+    AciveUserInfo = "ActiveUserInfo",
 }
