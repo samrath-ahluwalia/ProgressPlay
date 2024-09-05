@@ -120,7 +120,6 @@
 </div>
 </div>
 
-<!-- Failure Modal -->
 <div class="modal" id="emailFailureModal" tabindex="-1" role="dialog" >
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -147,7 +146,7 @@
     </div>
     <div class="modal-body">
       <label for="emailChange" class="form-label">Enter email</label>
-      <input type="text" class="form-control" id="emailChange" v-model="emailChange">
+      <input type="text" class="form-control" id="emailChange" [(ngModel)]="emailChange">
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
