@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener  } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { LocalService } from '../../services/data/local.service';
@@ -9,7 +9,7 @@ import { Keys } from '../../models/Enum/Keys';
   standalone: true,
   imports: [NavbarComponent, CommonModule],
   templateUrl: './homepage.component.html',
-  styleUrl: './homepage.component.css'
+  styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit {
 
@@ -25,8 +25,8 @@ export class HomepageComponent implements OnInit {
     { title: 'How can I claim my rewards?', answer: 'The status of rewards, which currently take the form of badges, is contingent upon your accumulated score. You can view the complete list of available rewards by selecting the My Rewards option. Here, you will find rewards categorized as either Locked or Unlocked. Unlocked rewards are eligible for redemption upon selection, while locked rewards remain inaccessible until the requisite score is achieved. This system ensures that rewards are distributed based on user performance and engagement.' },
   ];
   username: string = "";
-  hasScrolled: boolean = false;
   isScrollingEnabled: boolean = false;
+  scrolledToFaq: boolean = false;
 
   constructor (private _localService: LocalService) { }
 
@@ -39,63 +39,32 @@ export class HomepageComponent implements OnInit {
     this.username = this._localService.get(Keys.ActiveUsername, false)
   }
 
-  toggleExpansion(index: number){
-    if (this.expandedIndex === index) {
-      this.expandedIndex = -1;
-    } else {
-      this.expandedIndex = index;
-    }
+  toggleExpansion(index: number) {
+    this.expandedIndex = this.expandedIndex === index ? -1 : index;
   }
-  
+
   toggleExtended() {
     this.isExtended = !this.isExtended;
   }
 
   @HostListener('window:scroll', ['$event'])
-  onWindowScroll(event: Event) {
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-    console.log('Scroll Position:', scrollPosition);
-  
-    if (!this.isScrollingEnabled) {
-      if (scrollPosition < 25) {
-        window.scrollTo(0, 0);
-      } else {
-        this.isScrollingEnabled = true;
-  
-        const welcomeSection = document.getElementById('welcomeSection');
-        if (welcomeSection) {
-          const welcomeSectionBottom = welcomeSection.getBoundingClientRect().bottom + window.scrollY;
-          console.log('Welcome Section Bottom:', welcomeSectionBottom);
-  
-          window.scrollTo({
-            top: welcomeSectionBottom,
-            behavior: 'smooth'
-          });
-  
-          // Reset scrolling state after the smooth scroll
-          setTimeout(() => {
-            this.isScrollingEnabled = true;
-            this.hasScrolled = true;
-          }, 1000); // Adjust timeout if needed
-        }
-      }
-    } else if (this.hasScrolled) {
-      const welcomeSection = document.getElementById('welcomeSection');
-      if (welcomeSection) {
-        const welcomeSectionTop = welcomeSection.getBoundingClientRect().top + window.scrollY;
-        console.log('Welcome Section Top:', welcomeSectionTop);
-  
-        if (scrollPosition < welcomeSectionTop) {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-  
-          this.isScrollingEnabled = false;
-          this.hasScrolled = false;
-        }
-      }
+  onWindowScroll() {
+  const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+
+  const faqSection = document.getElementById('faqSection');
+  const welcomeSection = document.getElementById('welcomeSection');
+
+  if (!this.scrolledToFaq && scrollPosition > 50) {
+    if (faqSection) {
+      faqSection.scrollIntoView({ behavior: 'smooth' });
+      this.scrolledToFaq = true;
+    }
+  } else if (this.scrolledToFaq && scrollPosition < 50) {
+    if (welcomeSection) {
+      welcomeSection.scrollIntoView({ behavior: 'smooth' });
+      this.scrolledToFaq = false;
     }
   }
-  
+}
+
 }
