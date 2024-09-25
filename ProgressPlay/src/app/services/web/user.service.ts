@@ -14,6 +14,13 @@ export class UserService {
 
   constructor(private _httpClient: HttpClient, private _localService: LocalService) { }
 
+  getUserInfo(username: string): Observable<any>{
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false)
+    });
+    return this._httpClient.get(`${this.baseUrl}/userinfo/${username}`, { headers });
+  }
+
   signup(signupForm: SignupForm): Observable<any> {
     const url = `${this.baseUrl}/signup`;
     const body = {
