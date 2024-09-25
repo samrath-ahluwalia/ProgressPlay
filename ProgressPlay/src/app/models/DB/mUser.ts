@@ -9,7 +9,4 @@ export class User {
     password: string= "";
     usertype: string="";
     score: number = 0;
-    todoItems: TodoItem[] = [];
-    images: Image[] = [];
-    todoLists: TodoList[] = [];
 }

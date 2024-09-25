@@ -83,6 +83,21 @@ def upload_image(username):
     else:
         return jsonify({"error": "No file selected"}), 400
 
+@routes.route("/<username>/addlist", methods=['POST'])
+@jwt_required()
+def add_list(username):
+    data = request.get_json()
+    if 'name' in data:
+        name = data['name']
+        date_created = datetime.now()
+        user = User.query.filter_by(username = username).first()
+        todolist  = Todolists(name =  name, date_created = date_created, user_id = user.id)
+        user.score+=5
+        db.session.add(todolist)
+        db.session.commit()
+        return jsonify({}), 200
+    else:
+        return jsonify({}), 400
 
 @routes.route('/image/<username>', methods=['GET'])
 def get_image(username):
@@ -202,36 +217,103 @@ def getListItems(username, listid):
         todoitems.append(todoitem)
     return todoitems
 
-@routes.route('/<username>/additem', methods=['POST'])
+@routes.route('/<username>/<listid>/additem', methods=['POST'])
 @jwt_required()
-def additem(username):
+def additem(username, listid):
+    user = User.query.filter_by(username = username).first()
     data = request.get_json()
-    user = User.query.filter_by(username=username).first()
-    new_item = Todoitems(
-        title=data['title'],
-        description=data['description'],
-        date_goal=data['date_goal'],
-        user_id=user.id,
-        list_id=data['list_id']
-    )
-    db.session.add(new_item)
-    db.session.commit()
-    return jsonify({"message": "Item added successfully"}), 200
+    if 'title' and 'description' and 'date_goal' in data:
+        date = (data['date_goal'])
+        item = Todoitems(
+            title = data['title'],
+            description = data['description'],
+            date_created = datetime.utcnow(),
+            date_completed = None,
+            date_goal = datetime.fromisoformat(date),
+            user_id = user.id,
+            list_id = listid
+        )
+        db.session.add(item)
+        db.session.commit()
+        return jsonify({}), 200
+    else:
+        return jsonify({}), 400
 
-@routes.route('/<username>/removeitem', methods=['DELETE'])
+@routes.route('/<username>/<itemid>/deleteitem', methods=['POST'])
 @jwt_required()
-def removeitem(username):
-    data = request.get_json()
-    item = Todoitems.query.get(data['item_id'])
+def deleteItem(username, itemid):
+    user = User.query.filter_by(username = username).first()
+    item = Todoitems.query.filter_by(user_id = user.id, id = itemid).first()
     db.session.delete(item)
     db.session.commit()
-    return jsonify({"message": "Item removed successfully"}), 200
+    return jsonify({}), 200
 
-@routes.route('/<username>/completetask', methods=['POST'])
+@routes.route('/<username>/<itemid>/completeitem', methods=['POST'])
 @jwt_required()
-def completeitem(username):
+def completeitem(username,itemid):
     data = request.get_json()
-    item = Todoitems.query.get(data['item_id'])
+    item = Todoitems.query.get(itemid)
     item.date_completed = datetime.utcnow()
     db.session.commit()
     return jsonify({"message": "Task marked as complete!"}), 200
+
+@routes.route('/<username>/editlist/<listid>', methods=['POST','PUT'])
+@jwt_required()
+def editList(username, listid):
+    user = User.query.filter_by(username = username).first()
+    list = Todolists.query.filter_by(user_id = user.id, id = listid).first()
+    data = request.get_json()
+    print(data)
+    if 'name' in data:
+        list.name = data['name']
+        db.session.commit()
+        return jsonify({}), 200
+    else:
+        return jsonify({}), 400
+
+@routes.route('/<username>/getrecentlistitems')
+@jwt_required()
+def getRecentListItems(username):
+    user = User.query.filter_by(username = username).first()
+    lists = Todolists.query.filter_by(user_id = user.id)
+    sortedLists = sorted(lists, key=lambda s: s.date_created, reverse=True)
+    recentList = sortedLists[0]
+    items = Todoitems.query.filter_by(user_id = user.id, list_id = recentList.id).all()
+    todoitems = []
+    for item in items:
+        todoitem = {
+            'id': item.id,
+            'title': item.title,
+            'description': item.description,
+            'date_created':item.date_created,
+            'date_completed': item.date_completed,
+            'date_goal': item.date_goal,
+            'user_id': item.user_id,
+            'list_id': item.list_id
+        }
+        todoitems.append(todoitem)
+    return todoitems
+
+@routes.route('/<username>/edititem/<itemid>', methods=['POST','PUT'])
+@jwt_required()
+def editItem(username, itemid):
+    user = User.query.filter_by(username = username).first()
+    item = Todoitems.query.filter_by(user_id = user.id, id = itemid).first()
+    dataitem = request.get_json()
+    if 'title' in dataitem:
+        item.title = dataitem['title']
+    if 'description' in dataitem:
+        item.description = dataitem['description']
+    if 'date_goal' in dataitem:
+        item.date_goal = datetime.fromisoformat(dataitem['date_goal'])
+    db.session.commit()
+    return jsonify({}), 200
+
+@routes.route('/<username>/<listid>/deletelist', methods=['POST'])
+@jwt_required()
+def deleteList(username, listid):
+    user = User.query.filter_by(username = username).first()
+    list = Todolists.query.filter_by(user_id = user.id, id = listid).first()
+    db.session.delete(list)
+    db.session.commit()
+    return jsonify({}), 200
