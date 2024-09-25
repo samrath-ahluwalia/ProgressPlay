@@ -251,7 +251,6 @@ def deleteItem(username, itemid):
 @routes.route('/<username>/<itemid>/completeitem', methods=['POST'])
 @jwt_required()
 def completeitem(username,itemid):
-    data = request.get_json()
     item = Todoitems.query.get(itemid)
     item.date_completed = datetime.utcnow()
     db.session.commit()
