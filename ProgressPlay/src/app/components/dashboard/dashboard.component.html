@@ -4,14 +4,14 @@
     <div class="container vh-99 mt-5">
       <div class="container text-dark-emphasis d-flex align-items-center justify-content-center flex-column" style="margin-top: 9vh">
         <hr>
-        <h5 class="text-white text-center">Username's Dashboard</h5>
-        <hr>
+        <h5 class="text-white text-center">{{ username }}'s Dashboard</h5>
       </div>
     </div>
   
     <div class="container-fluid">
       <div class="container">
         <div class="container-fluid py-2">
+
           <div class="d-flex flex-row flex-nowrap overflow-auto">
             <div *ngIf="this.emptyLists" class="container-fluid mb-3 mt-2">
               <h3 class="text-white" style="text-align:center">No lists exist, create a new list</h3>
@@ -23,29 +23,32 @@
                   <div style="overflow-y :auto;">
                     <div class="card-body" style="background-color:transparent; border: 5px solid transparent;">
                       <h5 class="card-title text-white">{{ list.name }}</h5>
-                      <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#editList">Edit</button>
-                      <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#addItem">Add item</button>
-                      <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteList">Delete</button>
+                      <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#editList" (click)="selectList(list)">Edit</button>
+                      <button class="btn btn-outline-success btn-sm ms-2 me-2" data-bs-toggle="modal" data-bs-target="#addItem" (click)="selectList(list)">Add item</button>
+                      <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteList" (click)="selectList(list)">Delete</button>
                       <br />
                       <hr>
                       <div *ngFor="let item of allTodoItems">
-                        <p class="card-text m-auto" *ngIf="item.list_id==list.id">
+                        <div class="card-text m-auto" *ngIf="item.list_id==list.id">
                           <ul class="list-group list-group-flush">
                             <div style="text-align: center;">
-                              <li class="list-group-item mb-2" style="background-color: #001a33; display: flex; justify-content: center;">
+                              <li class="list-group-item mb-2" style=" display: flex; justify-content: center;">
                                 <div class="card" style="width: 18rem;">
-                                  <div class="card-body border rounded" style="background-color: #001a33;">
+                                  <div class="card-body border rounded">
                                     <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="CompleteItem" *ngIf="item.date_completed==null" data-bs-toggle="modal" data-bs-target="#markItem" title="Mark as done" style="cursor: pointer;">
-                                      <h5 class="card-title text-danger" *ngIf="this.dateCondition">
+                                      <input class="form-check-input" type="checkbox" value="" id="CompleteItem" 
+                                        #completeCheckbox *ngIf="item.date_completed==null" 
+                                        data-bs-toggle="modal" data-bs-target="#markItem" 
+                                        title="Mark as done" style="cursor: pointer;" (click)="selectItem(item)">
+                                      <h5 class="card-title text-danger" *ngIf="this.dateCondition(item)==1">
                                         {{item.title}}
                                         <i class="fas fa-exclamation-triangle" style="color: red;"></i>
                                       </h5>
-                                      <h5 class="card-title text-warning" *ngIf="this.dateCondition">
+                                      <h5 class="card-title text-warning" *ngIf="this.dateCondition(item)==2">
                                         {{item.title}}
                                         <i class="far fa-clock" style="color: orange;"></i>
                                       </h5>
-                                      <h5 class="card-title text-success" *ngIf="item.date_completed!=null">
+                                      <h5 class="card-title text-success" *ngIf="this.dateCondition(item)==3">
                                         <s>{{item.title}}</s>
                                         <i class="fas fa-check"></i>
                                       </h5>
@@ -53,13 +56,14 @@
                                     <h6 class="card-title text-white">Created: {{item.date_created.slice(4).slice(0,-7)}}</h6>
                                     <h6 class="card-title text-white" *ngIf="item.date_completed==null">Goal: {{item.date_goal.slice(4).slice(0,-7)}}</h6>
                                     <h6 class="card-title text-white" *ngIf="item.date_completed!=null">Completed: {{item.date_completed.slice(4).slice(0,-7)}}</h6>
-                                    <button *ngIf="item.date_completed==null" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#editItem">Edit</button>
-                                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteItem">Delete</button>
+                                    <button *ngIf="item.date_completed==null" class="btn btn-outline-info me-1" data-bs-toggle="modal" data-bs-target="#editItem" (click)="selectItem(item)">Edit</button>
+                                    <button class="btn btn-outline-danger ms-1" data-bs-toggle="modal" data-bs-target="#deleteItem" (click)="this.selectItem(item)">Delete</button>
                                   </div>
                                 </div>
                               </li>
                             </div>
                           </ul>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -78,18 +82,18 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header" data-bs-theme="dark" style="background-color:001a33;">
-                <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">Edit {{this.selectedList}}</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">Edit {{this.selectedList.name}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="this.clear()"></button>
               </div>
               <div class="modal-body text-white" style="background-color: #000e1b;">
                 <div class="mb-3" data-bs-theme="dark">
                   <label for="newlistname" class="form-label">Enter updated list name</label>
-                  <input type="text" class="form-control" id="editListName" v-model="editListName">
+                  <input type="text" class="form-control" id="editListName" [(ngModel)]="this.editListName">
                 </div>
               </div>
               <div class="modal-footer" style="background-color: #000e1b;">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Edit</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="this.clear()">Close</button>
+                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" (click)="editList()">Edit</button>
               </div>
             </div>
           </div>
@@ -99,25 +103,25 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header" data-bs-theme="dark" style="background-color:001a33;">
-                <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Add item to {{this.selectedList}}</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Add item to {{this.selectedList.name}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="this.clear()"></button>
               </div>
               <div class="modal-body text-white" style="background-color: #000e1b;">
                 <div class="mb-3" data-bs-theme="dark">
                   <label for="newItemTitle" class="form-label">Enter title</label>
-                  <input type="text" class="form-control" id="newItemTitle" v-model="newItemTitle">
+                  <input type="text" class="form-control" id="newItemTitle" [(ngModel)]="newItemTitle">
                   <br>
                   <label for="newItemDescription" class="form-label">Enter Description</label>
-                  <textarea class="form-control" id="newItemDescription" v-model="newItemDescription" aria-label="With textarea"></textarea>
+                  <textarea class="form-control" id="newItemDescription" [(ngModel)]="newItemDescription" aria-label="With textarea"></textarea>
                   <br>
-                  <label for="newItemDateGoal" class="form-label">Enter Date Goal</label>
-                  <input type="datetime-local" id="newItemDateGoal" name="newItemDateGoal" v-model="newItemDateGoal" :min="getCurrentDateTime()">
+                  <label for="newItemdate_goal" class="form-label">Enter Date Goal</label>
+                  <input type="datetime-local" id="newItemdate_goal" name="newItemdate_goal" [(ngModel)]="newItemDateGoal" :min="getCurrentDateTime()">
                   <br>
                 </div>
               </div>
               <div class="modal-footer" style="background-color: #000e1b;">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Add</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="this.clear()">Close</button>
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" (click)="addItem()">Add</button>
               </div>
             </div>
           </div>
@@ -127,25 +131,25 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header" data-bs-theme="dark" style="background-color:001a33;">
-                <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Edit</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Edit Item</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="this.clear()"></button>
               </div>
               <div class="modal-body text-white" style="background-color: #000e1b;">
                 <div class="mb-3" data-bs-theme="dark">
                   <label for="editItemTitle" class="form-label">Enter title</label>
-                  <input type="text" class="form-control" id="editItemTitle" v-model="editItemTitle" :placeholder="this.selectedItem.title">
+                  <input type="text" class="form-control" id="editItemTitle" [(ngModel)]="editItemTitle" [placeholder]="this.selectedItem.title">
                   <br>
                   <label for="editItemDescription" class="form-label">Enter Description</label>
-                  <textarea class="form-control" id="editItemDescription" v-model="editItemDescription" :placeholder="this.selectedItem.description" aria-label="With textarea"></textarea>
+                  <textarea class="form-control" id="editItemDescription" [(ngModel)]="editItemDescription" [placeholder]="this.selectedItem.description" aria-label="With textarea"></textarea>
                   <br>
-                  <label for="editItemDateGoal" class="form-label">Enter Date Goal</label>
-                  <input type="datetime-local" id="editItemDateGoal" name="editItemDateGoal" v-model="editItemDateGoal" :min="getCurrentDateTime()">
+                  <label for="editItemdate_goal" class="form-label">Enter Date Goal</label>
+                  <input type="datetime-local" id="editItemdate_goal" name="editItemdate_goal" [(ngModel)]="editItemDateGoal" :min="getCurrentDateTime()" [placeholder]="this.selectedItem.date_goal">
                   <br>
                 </div>
               </div>
               <div class="modal-footer" style="background-color: #000e1b;">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Edit</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="this.clear()">Close</button>
+                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" (click)="editItem()">Edit</button>
               </div>
             </div>
           </div>
@@ -156,7 +160,7 @@
             <div class="modal-content">
               <div class="modal-header" data-bs-theme="dark" style="background-color:001a33;">
                 <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Delete</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="this.clear()"></button>
               </div>
               <div class="modal-body text-white" style="background-color: #000e1b;">
                 <div class="mb-3" data-bs-theme="dark">
@@ -164,8 +168,8 @@
                 </div>
               </div>
               <div class="modal-footer" style="background-color: #000e1b;">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="this.clear()">Close</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" (click)="this.deleteItem()">Delete</button>
               </div>
             </div>
           </div>
@@ -176,7 +180,7 @@
             <div class="modal-content">
               <div class="modal-header" data-bs-theme="dark" style="background-color:001a33;">
                 <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Delete</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="this.clear()"></button>
               </div>
               <div class="modal-body text-white" style="background-color: #000e1b;">
                 <div class="mb-3" data-bs-theme="dark">
@@ -184,8 +188,8 @@
                 </div>
               </div>
               <div class="modal-footer" style="background-color: #000e1b;">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="this.clear()">Close</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" (click)="this.deleteList()">Delete</button>
               </div>
             </div>
           </div>
@@ -196,7 +200,7 @@
             <div class="modal-content">
               <div class="modal-header" data-bs-theme="dark" style="background-color:001a33;">
                 <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Mark as Completed</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="this.clear()"></button>
               </div>
               <div class="modal-body text-white" style="background-color: #000e1b;">
                 <div class="mb-3" data-bs-theme="dark">
@@ -204,8 +208,8 @@
                 </div>
               </div>
               <div class="modal-footer" style="background-color: #000e1b;">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Mark as Completed</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="this.clear()">Close</button>
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" (click)="completeTask()">Mark as Completed</button>
               </div>
             </div>
           </div>
@@ -216,17 +220,17 @@
             <div class="modal-content">
               <div class="modal-header" data-bs-theme="dark" style="background-color:001a33;">
                 <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">Create a List</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="this.clear()"></button>
               </div>
               <div class="modal-body text-white" style="background-color: #000e1b;">
                 <div class="mb-3" data-bs-theme="dark">
                   <label for="newlistname" class="form-label">Enter name of new list</label>
-                  <input type="text" class="form-control" id="newlistname" v-model="newListName">
+                  <input type="text" class="form-control" id="newlistname" [(ngModel)]="newListName">
                 </div>
               </div>
               <div class="modal-footer" style="background-color: #000e1b;">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Create</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="this.clear()">Close</button>
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" (click)="createList()">Create</button>
               </div>
             </div>
           </div>
