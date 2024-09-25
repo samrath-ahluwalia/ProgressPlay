@@ -11,14 +11,6 @@ export class ProfileService {
   private baseUrl = 'http://127.0.0.1:5000';
 
   constructor(private _httpClient: HttpClient, private _localService: LocalService) { }
-
-  getUserInfo(username: string): Observable<any>{
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false)
-    });
-    return this._httpClient.get(`${this.baseUrl}/userinfo/${username}`, { headers });
-  }
-
   getProfileImage(username: string): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
