@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <!-- Bootstrap Carousel -->
+  <!-- Bootstrap Carousel
   <div id="carouselExampleIndicators" class="carousel slide mx-auto" style="width: 80%;" data-bs-ride="carousel">
     <ol class="carousel-indicators">
       <li *ngFor="let slide of slideContent; let i = index" [attr.data-bs-target]="'#carouselExampleIndicators'" [attr.data-bs-slide-to]="i" [class.active]="i === 0"></li>
@@ -31,14 +31,15 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-  </div>
+  </div> -->
 
   <div class="container text-center mt-4">
     <button class="btn btn-outline-primary mx-2 mb-4" (click)="viewScores()">View Scores</button>
-    <button class="btn btn-outline-info mx-2 mb-4" (click)="toggleRewardsRow()">My Rewards</button>
+    <!-- <button class="btn btn-outline-info mx-2 mb-4" (click)="toggleRewardsRow()">My Rewards</button> -->
   </div>
 
-  <div class="container rewards-container" *ngIf="showRewardsRow">
+  <div class="container rewards-container" > 
+    <!-- *ngIf="showRewardsRow" -->
     <div class="row justify-content-center">
       <div *ngFor="let reward of rewards; let i = index" class="col-md-4">
         <div class="card h-100 d-flex flex-column justify-content-center align-items-center custom-card" (click)="handleImageClick(i, reward.id)">
@@ -51,7 +52,7 @@
       </div>
     </div>
     <div class="text-center">
-      <button *ngIf="showRewardsRow" (click)="toggleRewardsRow()" class="btn btn-danger mt-3">Close Rewards</button>
+      <!-- <button *ngIf="showRewardsRow" (click)="toggleRewardsRow()" class="btn btn-danger mt-3">Close Rewards</button> -->
     </div>
   </div>
 </div>

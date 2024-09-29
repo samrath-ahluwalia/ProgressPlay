@@ -24,7 +24,6 @@ export class RewardsComponent implements OnInit {
     { image: "/images/7.png", caption: "Yellow Samurai badge", data: "10000 points" },
     { image: "/images/3.png", caption: "More badges coming soon", data: "10000+ points" }
   ];
-  showRewardsRow: boolean = false;
   rewards = [
     { id: 1, title: "White Warrior", image: "/images/1.png" },
     { id: 2, title: "Dark Floyd", image: "/images/4.png" },
@@ -52,9 +51,9 @@ export class RewardsComponent implements OnInit {
     alert(message);
   }
 
-  toggleRewardsRow(): void {
-    this.showRewardsRow = !this.showRewardsRow;
-  }
+  // toggleRewardsRow(): void {
+  //   this.showRewardsRow = !this.showRewardsRow;
+  // }
 
   fetchStatus(rewardId: number): string {
     const index = this.rewards.findIndex(reward => reward.id === rewardId);
@@ -62,7 +61,7 @@ export class RewardsComponent implements OnInit {
   }
 
   calculateRequiredPoints(index: number): number {
-    const pointsRequired = [0, 1000, 2000, 3500, 5000, 10000, 10000000];
+    const pointsRequired = [50, 1000, 2000, 3500, 5000, 10000];
     return index < pointsRequired.length ? pointsRequired[index] : 0;
   }
 
