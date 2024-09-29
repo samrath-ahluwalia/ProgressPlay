@@ -145,4 +145,5 @@ export class DashboardComponent implements OnInit{
     else if (item.date_completed!=null) return 3;
     else return 0;
   }
+  
 }
