@@ -1,68 +1,178 @@
 <app-navbar></app-navbar>
+
 <div class="container mt-5 pt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Username's Dashboard</h1>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createList">Create New List</button>
+  <!-- Overview Cards -->
+  <div class="row mb-4">
+    <div class="col-sm-3">
+      <div class="card border-primary">
+        <div class="card-body">
+          <h5 class="card-title">Total Lists</h5>
+          <p class="card-text">3</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card border-success">
+        <div class="card-body">
+          <h5 class="card-title">Total Tasks</h5>
+          <p class="card-text">20</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card border-warning">
+        <div class="card-body">
+          <h5 class="card-title">Pending Tasks</h5>
+          <p class="card-text">20</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card border-danger">
+        <div class="card-body">
+          <h5 class="card-title">Overdue</h5>
+          <p class="card-text">20</p>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="row g-4">
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="card border-0 shadow-sm">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-          <h5 class="card-title m-0">List Name</h5>
-          <div class="btn-group">
-            <button class="btn btn-sm btn-outline-light">Edit</button>
-            <button class="btn btn-sm btn-outline-light">Delete</button>
+  <!-- Tabs Navigation -->
+  <ul class="nav nav-tabs" id="taskTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="create-list-tab" data-bs-toggle="tab" data-bs-target="#create-list" type="button" role="tab" aria-controls="create-list" aria-selected="false">Create List</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="manage-lists-tab" data-bs-toggle="tab" data-bs-target="#manage-lists" type="button" role="tab" aria-controls="manage-lists" aria-selected="true">Manage Lists</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="previous-lists-tab" data-bs-toggle="tab" data-bs-target="#previous-lists" type="button" role="tab" aria-controls="previous-lists" aria-selected="false">Previous Lists</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="progress-tab" data-bs-toggle="tab" data-bs-target="#progress" type="button" role="tab" aria-controls="progress" aria-selected="false">Progress</button>
+    </li>
+  </ul>
+
+  <!-- Tabs Content -->
+  <div class="tab-content" id="taskTabsContent">
+    <!-- Create List Tab -->
+    <div class="tab-pane fade" id="create-list" role="tabpanel" aria-labelledby="create-list-tab">
+      <div class="card mt-4">
+        <div class="card-body">
+          <h5 class="card-title">Create a New List</h5>
+          <form>
+            <div class="mb-3">
+              <label for="listName" class="form-label">List Name</label>
+              <input type="text" class="form-control" id="listName" placeholder="Enter list name">
+            </div>
+            <div class="mb-3">
+              <label for="taskName" class="form-label">Add Task (Optional)</label>
+              <input type="text" class="form-control" id="taskName" placeholder="Enter task name">
+            </div>
+            <button type="submit" class="btn btn-primary">Create List</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Manage Lists Tab -->
+    <div class="tab-pane fade show active" id="manage-lists" role="tabpanel" aria-labelledby="manage-lists-tab">
+      <!-- Lists and Tasks Management -->
+      <div id="listsContainer" class="accordion mt-3">
+        <!-- Example List with Tasks (Dummy Content) -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="list1-heading">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#list1-tasks" aria-expanded="true" aria-controls="list1-tasks">
+              List 1: Project Tasks
+            </button>
+          </h2>
+          <div id="list1-tasks" class="accordion-collapse collapse show" aria-labelledby="list1-heading">
+            <div class="accordion-body">
+              <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-sm btn-outline-primary me-2">Edit List</button>
+                <button class="btn btn-sm btn-outline-danger">Delete List</button>
+              </div>
+              <!-- Task Table for the List -->
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Urgency</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Task 1</td>
+                    <td>Lorem ipsum dolor sit amet.</td>
+                    <td>10/10/2024 10:00 AM</td>
+                    <td><span class="badge bg-warning">Medium</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary">Edit</button>
+                      <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </td>
+                  </tr>
+                  <!-- Additional tasks can be added dynamically -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+        <!-- Add more lists dynamically here -->
+      </div>
+    </div>
+
+    
+
+    <!-- Previous Lists Tab -->
+    <div class="tab-pane fade" id="previous-lists" role="tabpanel" aria-labelledby="previous-lists-tab">
+      <div class="mt-4">
+        <p>Previous lists that have been archived or completed will be shown here.</p>
+        <!-- Example of a previous list (Dummy Content) -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="previous-list1-heading">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#previous-list1-tasks" aria-expanded="true" aria-controls="previous-list1-tasks">
+              Previous List 1: Old Project Tasks
+            </button>
+          </h2>
+          <div id="previous-list1-tasks" class="accordion-collapse collapse show" aria-labelledby="previous-list1-heading">
+            <div class="accordion-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Urgency</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Old Task 1</td>
+                    <td>Lorem ipsum dolor sit amet.</td>
+                    <td>01/01/2024 10:00 AM</td>
+                    <td><span class="badge bg-secondary">Low</span></td>
+                  </tr>
+                  <!-- Additional tasks can be added here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+    <!-- Progress Tab -->
+    <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
+      <div class="card mt-4">
         <div class="card-body">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <div class="d-flex justify-content-between">
-                <span>Item 1 Title</span>
-                <span class="badge bg-success">Completed</span>
-              </div>
-              <p class="mb-0"><small>Goal: 01/01/2024</small></p>
-            </li>
-            <li class="list-group-item">
-              <div class="d-flex justify-content-between">
-                <span>Item 2 Title</span>
-              </div>
-              <p class="mb-0"><small>Goal: 01/02/2024</small></p>
-            </li>
-            <!-- Add more static list items as needed -->
-          </ul>
+          <canvas id="progressGraph" width="400" height="200"></canvas>
+          <p class="mt-3">This graph shows the progress of tasks across all lists.</p>
         </div>
       </div>
     </div>
 
-    <!-- Repeat the above card structure for more lists -->
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="card border-0 shadow-sm">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-          <h5 class="card-title m-0">Another List</h5>
-          <div class="btn-group">
-            <button class="btn btn-sm btn-outline-light">Edit</button>
-            <button class="btn btn-sm btn-outline-light">Delete</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <div class="d-flex justify-content-between">
-                <span>Item A Title</span>
-                <span class="badge bg-success">Completed</span>
-              </div>
-              <p class="mb-0"><small>Goal: 01/05/2024</small></p>
-            </li>
-            <li class="list-group-item">
-              <div class="d-flex justify-content-between">
-                <span>Item B Title</span>
-              </div>
-              <p class="mb-0"><small>Goal: 01/06/2024</small></p>
-            </li>
-          </ul>
-        </div>
+    
+        <!-- Add more previous lists dynamically here -->
       </div>
     </div>
   </div>
