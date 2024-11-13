@@ -9,6 +9,7 @@ import { profileEnd } from 'console';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
+import { AskaiComponent } from './components/askai/askai.component';
 
 export const routes: Routes = [
     {path: '', component: EntryComponent},
@@ -19,5 +20,6 @@ export const routes: Routes = [
     {path: 'about', component: AboutComponent},
     {path: 'profile', component: ProfileComponent},
     {path: 'rewards', component: RewardsComponent},
+    {path: 'askai', component: AskaiComponent},
     {path: '**', component: PagenotfoundComponent},
 ];
