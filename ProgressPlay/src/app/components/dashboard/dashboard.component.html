@@ -8,6 +8,7 @@
         <div class="card-body">
           <h5 class="card-title">Total Lists</h5>
           <p class="card-text">{{ allTodoLists.length }}</p>
+          <p class="card-text">{{ allTodoLists.length }}</p>
         </div>
       </div>
     </div>
@@ -15,6 +16,7 @@
       <div class="card border-success">
         <div class="card-body">
           <h5 class="card-title">Total Tasks</h5>
+          <p class="card-text">{{ allTodoItems.length }}</p>
           <p class="card-text">{{ allTodoItems.length }}</p>
         </div>
       </div>
@@ -24,6 +26,7 @@
         <div class="card-body">
           <h5 class="card-title">Pending Tasks</h5>
           <p class="card-text">{{ pendingTasksCount }}</p>
+          <p class="card-text">{{ pendingTasksCount }}</p>
         </div>
       </div>
     </div>
@@ -32,8 +35,10 @@
         <div class="card-body">
           <h5 class="card-title">Overdue</h5>
           <p class="card-text">{{ overdueTasksCount }}</p>
+          <p class="card-text">{{ overdueTasksCount }}</p>
         </div>
       </div>
+    </div>    
     </div>    
   </div>
 
@@ -61,15 +66,19 @@
         <div class="card-body">
           <h5 class="card-title">Create a New List</h5>
           <form (ngSubmit)="createList()">
+          <form (ngSubmit)="createList()">
             <div class="mb-3">
               <label for="listName" class="form-label">List Name</label>
               <input type="text" class="form-control" id="listName" placeholder="Enter list name" [(ngModel)]="newListName" name="newListName">
+              <input type="text" class="form-control" id="listName" placeholder="Enter list name" [(ngModel)]="newListName" name="newListName">
             </div>
+            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createList">Create List</button>
             <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createList">Create List</button>
           </form>
         </div>
       </div>
     </div>
+
 
     <!-- Manage Lists Tab -->
     <div class="tab-pane fade show active" id="manage-lists" role="tabpanel" aria-labelledby="manage-lists-tab">
@@ -90,6 +99,7 @@
             </button>
           </h2>
           <div [id]="'list' + list.id + '-tasks'" class="accordion-collapse collapse show" [attr.aria-labelledby]="'list' + list.id + '-heading'">
+          <div [id]="'list' + list.id + '-tasks'" class="accordion-collapse collapse show" [attr.aria-labelledby]="'list' + list.id + '-heading'">
             <div class="accordion-body">
               <table class="table table-striped">
                 <thead>
@@ -106,6 +116,10 @@
                     <td>{{ item.title }}</td>
                     <td>{{ item.description }}</td>
                     <td>{{ item.date_goal | date:'MM/dd/yyyy h:mm a' }}</td>
+                  <tr *ngFor="let item of getFilteredItems(list.id)">
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.date_goal | date:'MM/dd/yyyy h:mm a' }}</td>
                     <td><span class="badge bg-warning">Medium</span></td>
                     <td>
                       <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editItem">Edit</button>
@@ -114,6 +128,7 @@
                   </tr>
                 </tbody>
               </table>
+            </div>            
             </div>            
           </div>
         </div>
