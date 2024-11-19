@@ -104,6 +104,12 @@ export class DashboardComponent implements OnInit{
     ).length;
   }
 
+  getListCounts(): any{
+    this._dashboardService.listCount(this.username).subscribe((data) => {
+      console.log(data)
+    });
+  }
+
   getFilteredItems(listId: number): TodoItem[] {
     return this.allTodoItems.filter(item => item.list_id === listId);
   }

@@ -91,4 +91,12 @@ export class DashboardService {
     return this._httpClient.post(`${this.baseUrl}/${username}/${itemId}/completeitem`, {}, { headers});
   }
 
+  listCount(username: string): Observable<any>{
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      'Content-Type': 'application/json'
+    });
+    return this._httpClient.post(`${this.baseUrl}/${username}/listcount`, {}, { headers}); 
+  }
+
 }

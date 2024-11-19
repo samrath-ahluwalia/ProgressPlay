@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identi
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
+from collections import defaultdict
 from datetime import datetime
 from .models import User, Todoitems, Todolists, Image
 from . import db
@@ -316,3 +317,18 @@ def deleteList(username, listid):
     db.session.delete(list)
     db.session.commit()
     return jsonify({}), 200
+
+@routes.route('/<username>/listcount', methods=['GET','POST'])
+@jwt_required()
+def listCount(username):
+    user = User.query.filter_by(username = username).first()
+    lists = Todolists.query.filter_by(user_id = user.id).all()
+    grouped_lists = defaultdict(list)
+    for list_item in lists:
+        created_month = list_item.date_created.strftime('%Y-%m')
+        grouped_lists[created_month].append({
+            'id': list_item.id,
+            'name': list_item.name,
+            'date_created': list_item.date_created.strftime('%Y-%m-%d %H:%M:%S')
+        })
+    return jsonify(dict(grouped_lists)), 200
