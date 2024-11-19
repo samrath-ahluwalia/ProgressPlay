@@ -93,6 +93,22 @@ export class DashboardComponent implements OnInit{
     });
   }
 
+  get pendingTasksCount(): number {
+    return this.allTodoItems.filter(item => !item.date_completed).length;
+  }
+  
+  get overdueTasksCount(): number {
+    const today = new Date();
+    return this.allTodoItems.filter(
+      item => item.date_completed == null && new Date(item.date_goal) < today
+    ).length;
+  }
+
+  getFilteredItems(listId: number): TodoItem[] {
+    return this.allTodoItems.filter(item => item.list_id === listId);
+  }
+  
+
   deleteList() {
     this._dashboardService.deleteList(this.username, this.selectedList.id).subscribe(() => {
       this.load();
