@@ -21,6 +21,7 @@ class Todoitems(db.Model):
     date_goal = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     list_id = db.Column(db.Integer, db.ForeignKey('todolists.id'))
+    is_deleted = db.Column(db.Boolean, nullable=False, default=False)
 
 class Todolists(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,6 +29,7 @@ class Todolists(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     list = db.relationship('Todoitems', cascade="all, delete", backref='todolists')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    is_deleted = db.Column(db.Boolean, nullable=False, default=False)
 
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)

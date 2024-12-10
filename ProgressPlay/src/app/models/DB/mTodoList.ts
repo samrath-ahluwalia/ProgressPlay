@@ -6,4 +6,5 @@ export class TodoList {
     date_created: Date = new Date();
     list: TodoItem[] = [];
     user_id: number = 0;
+    is_deleted: boolean = false;
 }

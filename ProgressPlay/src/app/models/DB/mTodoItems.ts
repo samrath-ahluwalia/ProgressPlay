@@ -7,4 +7,5 @@ export class TodoItem {
     date_goal: Date = new Date();
     user_id: number = 0;
     list_id?: number = 0;
+    is_deleted: boolean = false;
 }

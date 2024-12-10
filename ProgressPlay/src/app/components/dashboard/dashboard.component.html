@@ -60,7 +60,7 @@
       <div class="card mt-4">
         <div class="card-body">
           <h5 class="card-title">Create a New List</h5>
-          <form (ngSubmit)="createList()">
+          <form>
             <div class="mb-3">
               <label for="listName" class="form-label">List Name</label>
               <input type="text" class="form-control" id="listName" placeholder="Enter list name" [(ngModel)]="newListName" name="newListName">
@@ -74,23 +74,18 @@
 
     <!-- Manage Lists Tab -->
     <div class="tab-pane fade show active" id="manage-lists" role="tabpanel" aria-labelledby="manage-lists-tab">
-      <!-- Lists and Tasks Management -->
       <div *ngIf="!emptyLists; else noLists" id="listsContainer" class="accordion mt-3">
         <div *ngFor="let list of allTodoLists" class="accordion-item">
-          <h2 class="accordion-header" [id]="'list' + list.id + '-heading'">
-            <!-- Accordion Button -->
-            <button class="accordion-button d-flex justify-content-between" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#list' + list.id + '-tasks'" aria-expanded="true" [attr.aria-controls]="'list' + list.id + '-tasks'" (click)="selectList(list)">
-              <span>
+          <h2 class="accordion-header d-flex align-items-center justify-content-between" [id]="'list' + list.id + '-heading'">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#list' + list.id + '-tasks'" aria-expanded="true" [attr.aria-controls]="'list' + list.id + '-tasks'" (click)="selectList(list)">
               {{ list.name }}
-              </span>
-              <div class="d-flex">
-                <button class="btn btn-sm btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#addItem">Add</button>
-                <button class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editListModal">Edit</button>
-                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteListModal">Delete</button>
-              </div>
             </button>
+            <div class="d-flex">
+              <button class="btn btn-sm btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#addItem" (click)="this.selectList(list)">Add</button>
+              <button class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editList" (click)="this.selectList(list)">Edit</button>
+              <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteList" (click)="this.selectList(list)">Delete</button>
+            </div>
           </h2>
-          <div [id]="'list' + list.id + '-tasks'" class="accordion-collapse collapse show" [attr.aria-labelledby]="'list' + list.id + '-heading'">
           <div [id]="'list' + list.id + '-tasks'" class="accordion-collapse collapse show" [attr.aria-labelledby]="'list' + list.id + '-heading'">
             <div class="accordion-body">
               <table class="table table-striped">
@@ -104,21 +99,19 @@
                   </tr>
                 </thead>
                 <tbody>
-      
                   <tr *ngFor="let item of getFilteredItems(list.id)">
                     <td>{{ item.title }}</td>
                     <td>{{ item.description }}</td>
-                    <td>{{ item.date_goal | date:'MM/dd/yyyy h:mm a' }}</td>
+                    <td>{{ item.date_goal | date: 'MM/dd/yyyy h:mm a' }}</td>
                     <td><span class="badge bg-warning">Medium</span></td>
                     <td>
-                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editItem">Edit</button>
-                      <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteItem">Del</button>
+                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editItem" (click)="this.selectItem(item)">Edit</button>
+                      <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteItem" (click)="this.selectItem(item)">Delete</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
-            </div>            
-            </div>            
+            </div>
           </div>
         </div>
       </div>
@@ -126,8 +119,8 @@
         <p>No lists available. Please create a new list.</p>
       </ng-template>
     </div>
-
-
+    
+    
     <!-- Progress Tab -->
     <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
       <div class="card mt-4">
@@ -286,10 +279,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="this.clear()"></button>
       </div>
       <div class="modal-body text-white" style="background-color: #000e1b;">
-        <div class="mb-3" data-bs-theme="dark">
-          <label for="newlistname" class="form-label">Enter name of new list</label>
-          <input type="text" class="form-control" id="newlistname" [(ngModel)]="newListName">
-        </div>
+        <p>Are you sure you want to create this new list?</p>
       </div>
       <div class="modal-footer" style="background-color: #000e1b;">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="this.clear()">Close</button>

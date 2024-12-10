@@ -138,7 +138,7 @@ def getAllLists(username):
     requesting_user = get_jwt_identity()
     if user.username != requesting_user:
         return jsonify({'message': "Access Denied"}), 403
-    lists = Todolists.query.filter_by(user_id=user.id)
+    lists = Todolists.query.filter_by(user_id=user.id, is_deleted=False)
     todoLists = []
     sortedLists = sorted(lists, key=lambda s: s.date_created, reverse=True)
     for list in sortedLists:
@@ -182,7 +182,7 @@ def changeEmail(username):
 @jwt_required()
 def getAllItems(username):
     user = User.query.filter_by(username=username).first()
-    items = Todoitems.query.filter_by(user_id=user.id).all()
+    items = Todoitems.query.filter_by(user_id=user.id, is_deleted=False).all()
     todoitems = []
     for item in items:
         todoitem = {
@@ -245,7 +245,7 @@ def additem(username, listid):
 def deleteItem(username, itemid):
     user = User.query.filter_by(username = username).first()
     item = Todoitems.query.filter_by(user_id = user.id, id = itemid).first()
-    db.session.delete(item)
+    item.is_deleted=True
     db.session.commit()
     return jsonify({}), 200
 
@@ -314,7 +314,10 @@ def editItem(username, itemid):
 def deleteList(username, listid):
     user = User.query.filter_by(username = username).first()
     list = Todolists.query.filter_by(user_id = user.id, id = listid).first()
-    db.session.delete(list)
+    items = Todoitems.query.filter_by(list_id = list.id).all()
+    for item in items:
+        item.is_deleted = True
+    list.is_deleted = True
     db.session.commit()
     return jsonify({}), 200
 
@@ -332,3 +335,10 @@ def listCount(username):
             'date_created': list_item.date_created.strftime('%Y-%m-%d %H:%M:%S')
         })
     return jsonify(dict(grouped_lists)), 200
+
+@routes.route('/<username>/deletedlists', methods=['GET','POST'])
+@jwt_required()
+def deletedLists(username):
+    user = User.query.filter_by(username = username).first()
+    lists = Todolists.query.filter_by(user_id = user.id, is_deleted = False).all()
+    return lists

@@ -111,6 +111,8 @@ export class DashboardComponent implements OnInit{
   }
 
   getFilteredItems(listId: number): TodoItem[] {
+    // console.log(this.allTodoItems.filter(item => item.list_id === listId));
+    // console.log(listId)
     return this.allTodoItems.filter(item => item.list_id === listId);
   }
   
@@ -128,7 +130,8 @@ export class DashboardComponent implements OnInit{
       description: this.newItemDescription,
       date_goal: this.newItemDateGoal,
       user_id: 0,
-      date_created : new Date() 
+      date_created : new Date(), 
+      is_deleted : false
     };
     this._dashboardService.addItem(this.username, this.selectedList.id,item).subscribe(() => {
       this.load();
