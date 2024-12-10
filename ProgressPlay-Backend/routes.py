@@ -146,7 +146,9 @@ def getAllLists(username):
             'id': list.id,
             'name': list.name,
             'date_created': list.date_created,
-            'user_id': list.user_id
+            'user_id': list.user_id,
+            'is_deleted': sortedLists[0].is_deleted
+
         }
         todoLists.append(todoList)
     return todoLists
@@ -161,7 +163,8 @@ def getRecentList(username):
         'id': sortedLists[0].id,
         'name': sortedLists[0].name,
         'date_created': sortedLists[0].date_created,
-        'user_id': sortedLists[0].user_id
+        'user_id': sortedLists[0].user_id,
+        'is_deleted': sortedLists[0].is_deleted
     }
     return recentList
 
@@ -193,7 +196,8 @@ def getAllItems(username):
             'date_completed': item.date_completed,
             'date_goal': item.date_goal,
             'user_id': item.user_id,
-            'list_id': item.list_id
+            'list_id': item.list_id,
+            'is_deleted': item.is_deleted
         }
         todoitems.append(todoitem)
     return todoitems
@@ -340,5 +344,16 @@ def listCount(username):
 @jwt_required()
 def deletedLists(username):
     user = User.query.filter_by(username = username).first()
-    lists = Todolists.query.filter_by(user_id = user.id, is_deleted = False).all()
-    return lists
+    lists = Todolists.query.filter_by(user_id = user.id, is_deleted = True).all()
+    deletedLists = []
+    for list in lists:
+        todoList = {
+            'id': list.id,
+            'name': list.name,
+            'date_created': list.date_created,
+            'user_id': list.user_id,
+            'is_deleted': list.is_deleted
+
+        }
+        deletedLists.append(todoList)
+    return deletedLists

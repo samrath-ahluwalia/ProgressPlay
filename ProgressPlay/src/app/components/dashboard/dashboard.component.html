@@ -102,7 +102,7 @@
                   <tr *ngFor="let item of getFilteredItems(list.id)">
                     <td>{{ item.title }}</td>
                     <td>{{ item.description }}</td>
-                    <td>{{ item.date_goal | date: 'MM/dd/yyyy h:mm a' }}</td>
+                    <td>{{ item.date_goal | date: 'MM/dd/yyyy h:mm a' : 'UTC' }}</td>
                     <td><span class="badge bg-warning">Medium</span></td>
                     <td>
                       <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editItem" (click)="this.selectItem(item)">Edit</button>
@@ -119,6 +119,32 @@
         <p>No lists available. Please create a new list.</p>
       </ng-template>
     </div>
+
+    <!-- Previous Lists Tab -->
+    <div class="tab-pane fade" id="previous-lists" role="tabpanel" aria-labelledby="previous-lists-tab">
+      <div class="card mt-4">
+        <div class="card-body">
+          <h5 class="card-title">Previous Lists</h5>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th style="width: 15%;">S. No</th>
+                <th style="width: 45%;">List Name</th>
+                <th style="width: 40%;">Date Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let list of deletedTodoLists; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ list.name }}</td>
+                <td>{{ list.date_created | date: 'MM/dd/yyyy h:mm a' : 'UTC' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     
     
     <!-- Progress Tab -->

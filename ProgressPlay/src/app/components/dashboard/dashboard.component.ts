@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit{
 
   allTodoLists: any[] = [];
   allTodoItems: any[] = [];
+  deletedTodoLists: any[] = [];
   selectedList: TodoList = new TodoList();
   selectedItem:TodoItem = new TodoItem();
   emptyLists: boolean = false;
@@ -52,7 +53,10 @@ export class DashboardComponent implements OnInit{
         this.allTodoItems = items;
         console.log(items)
         this.checkEmpty();
-        this.clear();
+        this._dashboardService.getPreviousLists(this.username).subscribe((deletedLists: any)=>{
+          this.deletedTodoLists = deletedLists.sort((a: { date_created: string | number | Date; }, b: { date_created: string | number | Date; }) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime());
+          console.log(deletedLists)
+        })
       })
     })
   }
