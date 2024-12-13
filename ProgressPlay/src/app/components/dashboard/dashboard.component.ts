@@ -7,11 +7,14 @@ import { TodoItem } from '../../models/DB/mTodoItems';
 import { LocalService } from '../../services/data/local.service';
 import { Keys } from '../../models/Enum/Keys';
 import { DashboardService } from '../../services/web/dashboard.service';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle } from 'ng-apexcharts';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, FormsModule],
+  imports: [NavbarComponent, CommonModule, FormsModule , NgApexchartsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -36,12 +39,19 @@ export class DashboardComponent implements OnInit{
   newItemDescription: string = "";
   newItemDateGoal: Date = new Date()
   item: any;
+  chartOptions: any;
+  isTabActive: boolean = false; 
 
   constructor(private _localService: LocalService, private _dashboardService: DashboardService){}
 
   ngOnInit(): void {
     this.username = this._localService.get(Keys.ActiveUsername, false);
     this.load();
+  }
+  ngAfterViewChecked() {
+    if (this.isTabActive) {
+      this.updateChartData();  
+    }
   }
 
   load(){
@@ -53,6 +63,7 @@ export class DashboardComponent implements OnInit{
         this.allTodoItems = items;
         console.log(items)
         this.checkEmpty();
+        // this.updateChartData();
         this._dashboardService.getPreviousLists(this.username).subscribe((deletedLists: any)=>{
           this.deletedTodoLists = deletedLists.sort((a: { date_created: string | number | Date; }, b: { date_created: string | number | Date; }) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime());
           console.log(deletedLists)
@@ -175,5 +186,32 @@ export class DashboardComponent implements OnInit{
     else return 0;
   }
   
-  
+  get completedTasksCount(): number {
+    return this.allTodoItems.filter(item => item.date_completed).length;
+  }
+
+  updateChartData() {
+    const totalTasks = this.allTodoItems.length;
+    const pendingTasks = this.pendingTasksCount;
+    const completedTasks = this.completedTasksCount;
+    const overdueTasks = this.overdueTasksCount;
+
+    this.chartOptions = {
+      chart: {
+        type: 'donut',
+      },
+      height: '40px',
+      width:'30px',
+      labels: ['Pending Tasks', 'Completed Tasks', 'Overdue Tasks'],
+      series: [pendingTasks, completedTasks, overdueTasks],
+      title: {
+        text: 'Tasks Overview',
+        align: 'center'
+      },
+    };
+  }
+
+  onTabChange(isActive: boolean) {
+    this.isTabActive = isActive;
+  }
 }
