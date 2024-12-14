@@ -72,6 +72,7 @@
     </div>
 
 
+
     <!-- Manage Lists Tab -->
     <div class="tab-pane fade show active" id="manage-lists" role="tabpanel" aria-labelledby="manage-lists-tab">
       <div *ngIf="!emptyLists; else noLists" id="listsContainer" class="accordion mt-3">
@@ -99,14 +100,52 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of getFilteredItems(list.id)">
+                  <tr *ngFor="let item of getFilteredItems(list.id)" [class.table-success]="item.date_completed">
                     <td>{{ item.title }}</td>
                     <td>{{ item.description }}</td>
                     <td>{{ item.date_goal | date: 'MM/dd/yyyy h:mm a' : 'UTC' }}</td>
-                    <td><span class="badge bg-warning">Medium</span></td>
+                
+                    <!-- Urgency Badge -->
                     <td>
-                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editItem" (click)="this.selectItem(item)">Edit</button>
-                      <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteItem" (click)="this.selectItem(item)">Delete</button>
+                      <span class="badge" [ngClass]="getUrgencyClass(getUrgency(item))">
+                        {{ getUrgency(item) }}
+                      </span>
+                    </td>
+                
+                    <!-- Action Buttons -->
+                    <td>
+                      <!-- Edit Button -->
+                      <button 
+                        class="btn btn-sm btn-outline-primary" 
+                        [disabled]="item.date_completed"
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editItem" 
+                        (click)="selectItem(item)"
+                        *ngIf="!item.date_completed">
+                        Edit
+                      </button>
+                
+                      <!-- Delete Button -->
+                      <button 
+                        class="btn btn-sm btn-outline-danger" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#deleteItem" 
+                        (click)="selectItem(item)">
+                        Delete
+                      </button>
+                
+                      <!-- Mark As Done Button -->
+                      <button 
+                        class="btn btn-sm btn-outline-success ms-2" 
+                        [disabled]="item.date_completed"
+                        (click)="selectItem(item)"
+                        data-bs-toggle="modal" 
+                        data-bs-target="#markItem"
+                        *ngIf="!item.date_completed">
+                        Mark As Done
+                      </button>
+                
+                      <!-- Completed Label -->
                     </td>
                   </tr>
                 </tbody>
@@ -152,10 +191,20 @@
       <div class="card mt-4">
         <div class="card-body">
           <div>
-            <div echarts [options]="chartOptions" class="echart-container"></div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+              <ngx-charts-pie-chart
+                [view]="view"
+                [results]="donutChartData"
+                [scheme]="colorScheme"
+                [legend]="showLegend"
+                [labels]="showLabels"
+                [explodeSlices]="explodeSlices"
+                [doughnut]="doughnut"
+                [arcWidth]="0.25"
+                [animations]="true">
+              </ngx-charts-pie-chart>
+            </div>
           </div>
-          <p class="mt-3">Click to refresh progress.</p>
-          <button (click)="updateChartData()">Update Progress</button>
         </div>
       </div>
     </div>

@@ -7,12 +7,12 @@ import { TodoItem } from '../../models/DB/mTodoItems';
 import { LocalService } from '../../services/data/local.service';
 import { Keys } from '../../models/Enum/Keys';
 import { DashboardService } from '../../services/web/dashboard.service';
-import { NgxEchartsModule } from 'ngx-echarts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, FormsModule, NgxEchartsModule],
+  imports: [NavbarComponent, CommonModule, FormsModule, NgxChartsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -35,10 +35,17 @@ export class DashboardComponent implements OnInit{
   newListName: string = "";
   newItemTitle: string = "";
   newItemDescription: string = "";
+  donutChartData: any[] = [];
   newItemDateGoal: Date = new Date()
   item: any;
   chartOptions: any;
   isTabActive: boolean = true;
+  view: [number, number] = [700, 400]; // Width and height of the chart
+  showLegend = true;
+  showLabels = true;
+  explodeSlices = false;
+  doughnut = true; // This makes it a donut chart
+  colorScheme = "vivid"
 
   constructor(private _localService: LocalService, private _dashboardService: DashboardService){}
 
@@ -54,10 +61,23 @@ export class DashboardComponent implements OnInit{
       this.checkEmpty();
       this._dashboardService.getAllItems(this.username).subscribe((items: any)=>{
         this.allTodoItems = items;
-        this.updateChartData();
         this.checkEmpty();
         this._dashboardService.getPreviousLists(this.username).subscribe((deletedLists: any)=>{
           this.deletedTodoLists = deletedLists.sort((a: { date_created: string | number | Date; }, b: { date_created: string | number | Date; }) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime());
+          this.donutChartData = [
+            {
+              name: "Completed",
+              value: this.completedTasksCount
+            },
+            {
+              name: "Pending",
+              value: this.pendingTasksCount
+            },
+            {
+              name: "Overdue",
+              value: this.overdueTasksCount
+            }
+          ]
           console.log(deletedLists)
         })
       })
@@ -92,45 +112,7 @@ export class DashboardComponent implements OnInit{
     this.editItemDateGoal = new Date(item.date_goal);
   }
 
-  updateChartData(): void {
-    const pendingTasks = this.pendingTasksCount;
-    const completedTasks = this.completedTasksCount;
-    const overdueTasks = this.overdueTasksCount;
-
-    this.chartOptions = {
-      title: {
-        text: 'Tasks Overview',
-        left: 'center',
-      },
-      tooltip: {
-        trigger: 'item',
-      },
-      legend: {
-        orient: 'vertical',
-        left: 'left',
-      },
-      series: [
-        {
-          name: 'Tasks',
-          type: 'pie',
-          radius: '50%',
-          data: [
-            { value: pendingTasks, name: 'Pending Tasks' },
-            { value: completedTasks, name: 'Completed Tasks' },
-            { value: overdueTasks, name: 'Overdue Tasks' },
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)',
-            },
-          },
-        },
-      ],
-    };
-  }
-
+  
   editList() {
     const username = this.username;
     this._dashboardService.editList(username, this.selectedList.id, this.editListName).subscribe(() => {
@@ -151,10 +133,6 @@ export class DashboardComponent implements OnInit{
 
   get completedTasksCount(): number {
     return this.allTodoItems.filter(item => item.date_completed).length;
-  }
-
-  onTabChange(isActive: boolean): void {
-    this.updateChartData();
   }
 
   getListCounts(): any{
@@ -224,5 +202,37 @@ export class DashboardComponent implements OnInit{
     else return 0;
   }
   
+  getUrgency(item: any): string {
+    // Check if the item is completed
+    if (item.date_completed) {
+      return 'None';
+    }
   
+    // Calculate urgency if the item is not completed
+    const now = new Date();
+    const goalDate = new Date(item.date_goal);
+    const diffInTime = goalDate.getTime() - now.getTime();
+    const diffInDays = diffInTime / (1000 * 3600 * 24);
+  
+    if (diffInDays <= 1) {
+      return 'High';
+    } else if (diffInDays <= 3) {
+      return 'Medium';
+    } else {
+      return 'Low';
+    }
+  }
+  
+  getUrgencyClass(urgency: string): string {
+    switch (urgency) {
+      case 'High':
+        return 'bg-danger';
+      case 'Medium':
+        return 'bg-warning';
+      case 'Low':
+        return 'bg-success';
+      default:
+        return 'bg-secondary';
+    }
+  }
 }
