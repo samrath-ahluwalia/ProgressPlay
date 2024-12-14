@@ -19,6 +19,13 @@ html, body {
   margin-bottom: 0;
 }
 
+.echart-container {
+  width: 100%; /* Full width of the parent container */
+  height: 400px; /* Set a fixed height */
+  max-width: 800px; /* Optional: Add a maximum width */
+  margin: auto; /* Center the chart horizontally */
+}
+
 .empty-state {
   padding: 50px;
   display: flex;

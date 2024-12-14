@@ -1,16 +1,57 @@
-<div class="d-flex align-items-center justify-content-center vh-100" style="text-align:center;">
-        
-    <form class=" border border-light p-5 rounded-5 ">
-        <h4 class="mb-3 text-white">Sign in</h4>
-        <br>
-        <div class="mb-3">
-        <label for="username" class="form-label text-white p-3">Username</label>
-        <input type="text" class="form-control" data-bs-theme="dark" id="username" name="username" [(ngModel)]="loginForm.username">
-           </div>
-        <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label text-white p-3">Password</label>
-        <input type="password" class="form-control" data-bs-theme="dark" id="password" name="password" [(ngModel)]="loginForm.password">
+<div class="container-fluid bg-dark text-light vh-100 d-flex align-items-center">
+    <div class="row g-0 w-100 h-100">
+      <!-- Image Section -->
+      <div class="col-lg-8 col-md-8 col-sm-12">
+        <img 
+          src="/images/pink.webp" 
+          class="img-fluid w-100 h-100" 
+          alt="Nature Background" 
+          style="object-fit: cover;" 
+        />
+      </div>
+  
+      <div class="col-lg-4 col-md-4 col-sm-12 d-flex flex-column justify-content-center px-4">
+        <div class="text-center">
+          <h1 class="display-5 fw-bold">Progress Play</h1>
+          <p class="mt-4 fs-5">
+            Login with your correct credentials!
+          </p>
         </div>
-        <button type="submit" (click)="handleLogin()" class="btn btn-primary mt-2" v-on:click="login"style="background-color: transparent; border: 2px solid white; color: white; padding: 10px 20px; font-size: 16px; cursor: pointer; transition: background-color 0.3s, color 0.3s;">Submit</button>
-    </form>
-</div>
+        <!-- Login Form -->
+        <form class="border border-light p-4 rounded-5 bg-transparent mt-4">
+          <h4 class="mb-3 text-white">Sign in</h4>
+          <div class="mb-3">
+            <label for="username" class="form-label text-white">Username</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              data-bs-theme="dark" 
+              id="username" 
+              name="username" 
+              [(ngModel)]="loginForm.username" 
+              placeholder="Enter your username"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label text-white">Password</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              data-bs-theme="dark" 
+              id="password" 
+              name="password" 
+              [(ngModel)]="loginForm.password" 
+              placeholder="Enter your password"
+            />
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-outline-light w-100 py-2 mt-3" 
+            (click)="handleLogin()">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

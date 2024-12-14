@@ -151,9 +151,11 @@
     <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
       <div class="card mt-4">
         <div class="card-body">
-          <canvas id="progressGraph" width="400" height="200"></canvas>
-          <p class="mt-3">This graph shows the progress of tasks across all lists.</p>
-          <button (click) = "getListCounts()">PROGRESS</button>
+          <div>
+            <div echarts [options]="chartOptions" class="echart-container"></div>
+          </div>
+          <p class="mt-3">Click to refresh progress.</p>
+          <button (click)="updateChartData()">Update Progress</button>
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ export class LoginComponent {
     this._userService.login(this.loginForm).subscribe((response: any) => {
       console.log(response)
       if(response.status === 200){
-        this._localService.set(Keys.accessToken, response.body.access_token, false)
+        this._localService.set(Keys.AccessToken, response.body.access_token, false)
         this._localService.set(Keys.ActiveUsername, this.loginForm.username, false)
         this._localService.set(Keys.ActiveUserID, response.body.userinfo.userid, false)
         this._router.navigate(['/homepage'])
