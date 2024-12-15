@@ -26,6 +26,19 @@
                   </li>
               </ul>
               <ul class="navbar-nav ms-auto">
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Theme
+                      </a>
+                      <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" (click)="setTheme('dark')">Dark</a></li>
+                          <li><a class="dropdown-item" (click)="setTheme('turquoise')">Turquoise</a></li>
+                          <li><a class="dropdown-item" (click)="setTheme('red')">Red</a></li>
+                          <li><a class="dropdown-item" (click)="setTheme('green')">Green</a></li>
+                          <li><a class="dropdown-item" (click)="setTheme('purple')">Purple</a></li>
+                          <li><a class="dropdown-item" (click)="setTheme('blue')">Blue</a></li>
+                      </ul>
+                  </li>
                   <li class="nav-item">
                       <button routerLink="/" class="nav-link text-info-emphasis" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
                   </li>

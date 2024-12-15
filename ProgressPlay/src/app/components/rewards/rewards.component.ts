@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/web/user.service';
 import { LocalService } from '../../services/data/local.service';
 import { Keys } from '../../models/Enum/Keys';
+import { ThemeService, Theme } from '../../services/theme.service';
 
 @Component({
   selector: 'app-rewards',
@@ -15,6 +16,7 @@ import { Keys } from '../../models/Enum/Keys';
 export class RewardsComponent implements OnInit {
   username: string = "";
   uData: any;
+  currentTheme: Theme = 'dark';
   slideContent = [
     { image: "/images/1.png", caption: "White Warrior badge", data: "500 points" },
     { image: "/images/4.png", caption: "Dark Floyd badge", data: "1000 points" },
@@ -36,13 +38,16 @@ export class RewardsComponent implements OnInit {
   isAnimating: boolean = false;
   originalPosition: any = { top: null, left: null };
 
-  constructor(private _userService: UserService, private _localService: LocalService) {}
+  constructor(private _userService: UserService, private _localService: LocalService, private themeService: ThemeService) {}
 
   ngOnInit(): void {
     this.username = this._localService.get(Keys.ActiveUsername, false);
     this._userService.getUserInfo(this.username).subscribe((userData: any) => {
       console.log(userData);
       this.uData = userData;
+    });
+    this.themeService.activeTheme$.subscribe(theme => {
+      this.currentTheme = theme;
     });
   }
 
@@ -124,5 +129,9 @@ export class RewardsComponent implements OnInit {
     image?.classList.remove('animate-flip');
     this.isAnimating = false;
     this.clickedImageIndex = -1;
+  }
+
+  setTheme(theme: Theme) {
+    this.themeService.setTheme(theme);
   }
 }

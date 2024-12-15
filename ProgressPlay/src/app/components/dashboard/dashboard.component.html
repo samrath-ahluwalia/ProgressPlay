@@ -83,7 +83,7 @@
             </button>
             <div class="d-flex">
               <button class="btn btn-sm btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#addItem" (click)="this.selectList(list)">Add</button>
-              <button class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editList" (click)="this.selectList(list)">Edit</button>
+              <button class="btn btn-sm btn-outline-info me-2" data-bs-toggle="modal" data-bs-target="#editList" (click)="this.selectList(list)">Edit</button>
               <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteList" (click)="this.selectList(list)">Delete</button>
             </div>
           </h2>
@@ -116,7 +116,7 @@
                     <td>
                       <!-- Edit Button -->
                       <button 
-                        class="btn btn-sm btn-outline-primary" 
+                        class="btn btn-sm btn-outline-info" 
                         [disabled]="item.date_completed"
                         data-bs-toggle="modal" 
                         data-bs-target="#editItem" 
