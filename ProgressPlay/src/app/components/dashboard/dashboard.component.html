@@ -4,7 +4,7 @@
   <!-- Overview Cards -->
   <div class="row mb-4">
     <div class="col-sm-3">
-      <div class="card border-primary">
+      <div class="card border-primary animate__animated animate__fadeInUp">
         <div class="card-body">
           <h5 class="card-title">Total Lists</h5>
           <p class="card-text">{{ allTodoLists.length }}</p>
@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="col-sm-3">
-      <div class="card border-success">
+      <div class="card border-success animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
         <div class="card-body">
           <h5 class="card-title">Total Tasks</h5>
           <p class="card-text">{{ allTodoItems.length }}</p>
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="col-sm-3">
-      <div class="card border-warning">
+      <div class="card border-warning animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
         <div class="card-body">
           <h5 class="card-title">Pending Tasks</h5>
           <p class="card-text">{{ pendingTasksCount }}</p>
@@ -28,17 +28,17 @@
       </div>
     </div>
     <div class="col-sm-3">
-      <div class="card border-danger">
+      <div class="card border-danger animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
         <div class="card-body">
           <h5 class="card-title">Overdue</h5>
           <p class="card-text">{{ overdueTasksCount }}</p>
         </div>
       </div>
     </div>    
-    </div>
+  </div>
 
   <!-- Tabs Navigation -->
-  <ul class="nav nav-tabs" id="taskTabs" role="tablist">
+  <ul class="nav nav-tabs animate__animated animate__fadeIn" style="animation-delay: 0.4s" id="taskTabs" role="tablist">
     <li class="nav-item" role="presentation">
       <button class="nav-link" id="create-list-tab" data-bs-toggle="tab" data-bs-target="#create-list" type="button" role="tab" aria-controls="create-list" aria-selected="false">Create List</button>
     </li>
@@ -76,7 +76,7 @@
     <!-- Manage Lists Tab -->
     <div class="tab-pane fade show active" id="manage-lists" role="tabpanel" aria-labelledby="manage-lists-tab">
       <div *ngIf="!emptyLists; else noLists" id="listsContainer" class="accordion mt-3">
-        <div *ngFor="let list of allTodoLists" class="accordion-item">
+        <div *ngFor="let list of allTodoLists; let i = index" class="accordion-item animate__animated animate__fadeInLeft" [style.animation-delay]="i * 0.1 + 's'">
           <h2 class="accordion-header d-flex align-items-center justify-content-between" [id]="'list' + list.id + '-heading'">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#list' + list.id + '-tasks'" aria-expanded="true" [attr.aria-controls]="'list' + list.id + '-tasks'" (click)="selectList(list)">
               {{ list.name }}
@@ -161,7 +161,7 @@
 
     <!-- Previous Lists Tab -->
     <div class="tab-pane fade" id="previous-lists" role="tabpanel" aria-labelledby="previous-lists-tab">
-      <div class="card mt-4">
+      <div class="card mt-4 animate__animated animate__fadeInRight">
         <div class="card-body">
           <h5 class="card-title">Previous Lists</h5>
           <table class="table table-striped">
@@ -188,7 +188,7 @@
     
     <!-- Progress Tab -->
     <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
-      <div class="card mt-4">
+      <div class="card mt-4 animate__animated animate__fadeInUp">
         <div class="card-body">
           <div>
             <div style="display: flex; justify-content: center; align-items: center;">

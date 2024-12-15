@@ -1,58 +1,40 @@
 <div class="container">
   <app-navbar></app-navbar>
-  <div class="container vh-99 mt-5">
-    <div class="container text-dark-emphasis d-flex align-items-center justify-content-center flex-column mb-4">
-      <hr>
-      <h5 class="text-white text-center">{{ username }}'s Rewards</h5>
-      <hr>
-    </div>
+  
+  <!-- Header Section -->
+  <div class="container text-dark-emphasis d-flex align-items-center justify-content-center flex-column mb-4 animate__animated animate__fadeInDown">
+    <hr>
+    <h5 class="text-white text-center">{{ username }}'s Rewards</h5>
+    <hr>
   </div>
 
-  <!-- Bootstrap Carousel
-  <div id="carouselExampleIndicators" class="carousel slide mx-auto" style="width: 80%;" data-bs-ride="carousel">
-    <ol class="carousel-indicators">
-      <li *ngFor="let slide of slideContent; let i = index" [attr.data-bs-target]="'#carouselExampleIndicators'" [attr.data-bs-slide-to]="i" [class.active]="i === 0"></li>
-    </ol>
-    <div class="carousel-inner justify-content-center">
-      <div *ngFor="let slide of slideContent; let i = index" [class.carousel-item]="true" [class.active]="i === 0">
-        <img [src]="slide.image" class="d-block w-75 h-75 mx-auto mb-3" [alt]="'Reward Slide ' + (i + 1)">
-        <div class="carousel-caption d-none d-md-block text-center mt-5">
-          <h5>{{ slide.caption }}</h5>
-          <p>{{ slide.data }}</p>
-          <p>Status: {{ calculateStatus(i) }}</p>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div> -->
-
-  <div class="container text-center mt-4">
+  <!-- View Scores Button -->
+  <div class="text-center mb-4 animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
     <button class="btn btn-outline-primary mx-2 mb-4" (click)="viewScores()">View Scores</button>
-    <!-- <button class="btn btn-outline-info mx-2 mb-4" (click)="toggleRewardsRow()">My Rewards</button> -->
   </div>
 
-  <div class="container rewards-container" > 
-    <!-- *ngIf="showRewardsRow" -->
+  <!-- Rewards Grid -->
+  <div class="container rewards-container"> 
     <div class="row justify-content-center">
-      <div *ngFor="let reward of rewards; let i = index" class="col-md-4">
-        <div class="card h-100 d-flex flex-column justify-content-center align-items-center custom-card" (click)="handleImageClick(i, reward.id)">
+      <div *ngFor="let reward of rewards; let i = index" class="col-md-4 mb-4">
+        <div class="card h-100 d-flex flex-column justify-content-center align-items-center custom-card animate__animated animate__fadeInUp" 
+             [style.animation-delay]="(0.3 + i * 0.1) + 's'"
+             (click)="handleImageClick(i, reward.id)">
           <div class="card-body text-center">
-            <img [src]="reward.image" [id]="'rewardImage-' + i" class="card-img-top mb-3" alt="Reward Image" style="width: 100px; height: 100px;">
-            <h5 class="card-title mb-3">{{ reward.title }}</h5>
-            <p class="card-text">{{ fetchStatus(reward.id) }}</p>
+            <img [src]="reward.image" 
+                 [id]="'rewardImage-' + i" 
+                 class="card-img-top mb-3 animate__animated animate__pulse animate__infinite animate__slow" 
+                 alt="Reward Image" 
+                 style="width: 100px; height: 100px;">
+            <h5 class="card-title mb-3 animate__animated animate__fadeIn" [style.animation-delay]="(0.4 + i * 0.1) + 's'">
+              {{ reward.title }}
+            </h5>
+            <p class="card-text animate__animated animate__fadeIn" [style.animation-delay]="(0.5 + i * 0.1) + 's'">
+              {{ fetchStatus(reward.id) }}
+            </p>
           </div>
         </div>
       </div>
-    </div>
-    <div class="text-center">
-      <!-- <button *ngIf="showRewardsRow" (click)="toggleRewardsRow()" class="btn btn-danger mt-3">Close Rewards</button> -->
     </div>
   </div>
 </div>
