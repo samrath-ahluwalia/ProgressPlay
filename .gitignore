@@ -2,3 +2,5 @@
 /venv
 /instance
 app.db
+node_modules
+.vscode

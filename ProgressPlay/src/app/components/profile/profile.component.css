@@ -1,0 +1,54 @@
+.profile-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  color: var(--text-color);
+  padding-top: 60px;
+}
+
+.profile-card {
+  background-color: var(--secondary-bg) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+  border-color: var(--accent-color) !important;
+}
+
+.profile-edit-button {
+  background-color: var(--dark-accent);
+  color: var(--text-color);
+  border: none;
+}
+
+.profile-edit-button:hover {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+
+.profile-divider {
+  border-color: var(--border-color);
+}
+
+/* Modal Styles */
+.modal-content {
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--dark-accent);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-color);
+  background-color: var(--secondary-bg);
+}
+
+.btn-close {
+  color: var(--text-color);
+  filter: invert(1) grayscale(100%) brightness(200%);
+}

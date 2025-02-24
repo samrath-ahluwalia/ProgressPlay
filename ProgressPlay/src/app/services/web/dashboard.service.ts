@@ -17,7 +17,7 @@ export class DashboardService {
 
   getAllLists(username: string): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     return this._httpClient.get(`${this.baseUrl}/${username}/getalllists`, { headers });
@@ -25,7 +25,7 @@ export class DashboardService {
 
   getAllItems(username: string): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     return this._httpClient.get(`${this.baseUrl}/${username}/getallitems`, { headers });
@@ -33,7 +33,7 @@ export class DashboardService {
 
   getPreviousLists(username: string): Observable<any>{
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     })
     return this._httpClient.get(`${this.baseUrl}/${username}/deletedlists`, { headers })
@@ -41,7 +41,7 @@ export class DashboardService {
 
   createList(username: string, name: string): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     return this._httpClient.post(`${this.baseUrl}/${username}/addlist`, { name }, { headers });
@@ -49,7 +49,7 @@ export class DashboardService {
 
   editList(username: string, listId: number, name: string): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     return this._httpClient.post(`${this.baseUrl}/${username}/editlist/${listId}`, { name }, { headers });
@@ -57,7 +57,7 @@ export class DashboardService {
 
   addItem(username: string, listid: number, item: TodoItem): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     return this._httpClient.post(`${this.baseUrl}/${username}/${listid}/additem`, item, { headers });
@@ -65,7 +65,7 @@ export class DashboardService {
 
   editItem(username: string, itemId: number, title: string, description: string, date_goal: Date, selectedItemDateGoal: Date): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     let item: any = {};
@@ -77,7 +77,7 @@ export class DashboardService {
 
   deleteList(username: string, listId: number): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     return this._httpClient.post(`${this.baseUrl}/${username}/${listId}/deletelist`, {}, { headers });
@@ -85,7 +85,7 @@ export class DashboardService {
 
   deleteItem(username: string, itemId: number): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     return this._httpClient.post(`${this.baseUrl}/${username}/${itemId}/deleteitem`, {}, { headers });
@@ -93,7 +93,7 @@ export class DashboardService {
 
   completeItem(username: string, itemId: number): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     return this._httpClient.post(`${this.baseUrl}/${username}/${itemId}/completeitem`, {}, { headers});
@@ -101,7 +101,7 @@ export class DashboardService {
 
   listCount(username: string): Observable<any>{
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     return this._httpClient.post(`${this.baseUrl}/${username}/listcount`, {}, { headers}); 

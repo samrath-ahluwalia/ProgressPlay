@@ -1,0 +1,79 @@
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.container-fluid {
+  padding: 0 !important;
+  background: var(--primary-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.container-fluid::before {
+  display: none;
+}
+
+.row.g-0 {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg,
+    var(--text-color) 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+button {
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(135deg,
+    var(--accent-color) 0%,
+    var(--primary-color) 100%
+  );
+  border: none;
+  color: var(--text-color);
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg,
+    var(--primary-color) 0%,
+    var(--accent-color) 100%
+  );
+}
+
+.form-control {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.form-control:focus {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
+}
+
+.form-label {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.animate__animated {
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}

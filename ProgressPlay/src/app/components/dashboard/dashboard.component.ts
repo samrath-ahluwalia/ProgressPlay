@@ -7,14 +7,12 @@ import { TodoItem } from '../../models/DB/mTodoItems';
 import { LocalService } from '../../services/data/local.service';
 import { Keys } from '../../models/Enum/Keys';
 import { DashboardService } from '../../services/web/dashboard.service';
-import { NgApexchartsModule } from 'ng-apexcharts';
-import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle } from 'ng-apexcharts';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, FormsModule , NgApexchartsModule],
+  imports: [NavbarComponent, CommonModule, FormsModule, NgxChartsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -37,15 +35,26 @@ export class DashboardComponent implements OnInit{
   newListName: string = "";
   newItemTitle: string = "";
   newItemDescription: string = "";
+  donutChartData: any[] = [];
   newItemDateGoal: Date = new Date()
   item: any;
   chartOptions: any;
-  isTabActive: boolean = false; 
+  isTabActive: boolean = true;
+  view: [number, number] = [700, 400]; // Width and height of the chart
+  showLegend = true;
+  showLabels = true;
+  explodeSlices = false;
+  doughnut = true; // This makes it a donut chart
+  colorScheme = "vivid"
 
   constructor(private _localService: LocalService, private _dashboardService: DashboardService){}
 
   ngOnInit(): void {
-    this.username = this._localService.get(Keys.ActiveUsername, false);
+    this.username = this._localService.get(Keys.ActiveUsername, false) || '';
+    if (!this.username) {
+      console.warn('No username found in local storage');
+      return;
+    }
     this.load();
   }
   ngAfterViewChecked() {
@@ -55,17 +64,32 @@ export class DashboardComponent implements OnInit{
   }
 
   load(){
+    if (!this.username) return;
+    
     this._dashboardService.getAllLists(this.username).subscribe((lists: any)=>{
       this.allTodoLists = lists;
       console.log(lists)
       this.checkEmpty();
       this._dashboardService.getAllItems(this.username).subscribe((items: any)=>{
         this.allTodoItems = items;
-        console.log(items)
         this.checkEmpty();
         // this.updateChartData();
         this._dashboardService.getPreviousLists(this.username).subscribe((deletedLists: any)=>{
           this.deletedTodoLists = deletedLists.sort((a: { date_created: string | number | Date; }, b: { date_created: string | number | Date; }) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime());
+          this.donutChartData = [
+            {
+              name: "Completed",
+              value: this.completedTasksCount
+            },
+            {
+              name: "Pending",
+              value: this.pendingTasksCount
+            },
+            {
+              name: "Overdue",
+              value: this.overdueTasksCount
+            }
+          ]
           console.log(deletedLists)
         })
       })
@@ -100,7 +124,7 @@ export class DashboardComponent implements OnInit{
     this.editItemDateGoal = new Date(item.date_goal);
   }
 
-
+  
   editList() {
     const username = this.username;
     this._dashboardService.editList(username, this.selectedList.id, this.editListName).subscribe(() => {
@@ -117,6 +141,10 @@ export class DashboardComponent implements OnInit{
     return this.allTodoItems.filter(
       item => item.date_completed == null && new Date(item.date_goal) < today
     ).length;
+  }
+
+  get completedTasksCount(): number {
+    return this.allTodoItems.filter(item => item.date_completed).length;
   }
 
   getListCounts(): any{
@@ -186,32 +214,37 @@ export class DashboardComponent implements OnInit{
     else return 0;
   }
   
-  get completedTasksCount(): number {
-    return this.allTodoItems.filter(item => item.date_completed).length;
+  getUrgency(item: any): string {
+    // Check if the item is completed
+    if (item.date_completed) {
+      return 'None';
+    }
+  
+    // Calculate urgency if the item is not completed
+    const now = new Date();
+    const goalDate = new Date(item.date_goal);
+    const diffInTime = goalDate.getTime() - now.getTime();
+    const diffInDays = diffInTime / (1000 * 3600 * 24);
+  
+    if (diffInDays <= 1) {
+      return 'High';
+    } else if (diffInDays <= 3) {
+      return 'Medium';
+    } else {
+      return 'Low';
+    }
   }
-
-  updateChartData() {
-    const totalTasks = this.allTodoItems.length;
-    const pendingTasks = this.pendingTasksCount;
-    const completedTasks = this.completedTasksCount;
-    const overdueTasks = this.overdueTasksCount;
-
-    this.chartOptions = {
-      chart: {
-        type: 'donut',
-      },
-      height: '40px',
-      width:'30px',
-      labels: ['Pending Tasks', 'Completed Tasks', 'Overdue Tasks'],
-      series: [pendingTasks, completedTasks, overdueTasks],
-      title: {
-        text: 'Tasks Overview',
-        align: 'center'
-      },
-    };
-  }
-
-  onTabChange(isActive: boolean) {
-    this.isTabActive = isActive;
+  
+  getUrgencyClass(urgency: string): string {
+    switch (urgency) {
+      case 'High':
+        return 'bg-danger';
+      case 'Medium':
+        return 'bg-warning';
+      case 'Low':
+        return 'bg-success';
+      default:
+        return 'bg-secondary';
+    }
   }
 }

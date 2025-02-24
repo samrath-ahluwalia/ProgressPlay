@@ -13,14 +13,14 @@ export class ProfileService {
   constructor(private _httpClient: HttpClient, private _localService: LocalService) { }
   getProfileImage(username: string): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
     });
     return this._httpClient.get(`${this.baseUrl}/currentimage/${username}`, { headers, responseType: 'blob'});
   }
 
   changeEmail(username: string, emailChange: string): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false),
+      Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false),
       'Content-Type': 'application/json'
     });
     const body = JSON.stringify({ email: emailChange });
@@ -34,7 +34,7 @@ export class ProfileService {
 
     return this._httpClient.post(`${this.baseUrl}/upload_image/${username}`, formData, {
       headers: new HttpHeaders({
-        Authorization: 'Bearer ' + this._localService.get(Keys.accessToken, false)
+        Authorization: 'Bearer ' + this._localService.get(Keys.AccessToken, false)
       })
     });
   }

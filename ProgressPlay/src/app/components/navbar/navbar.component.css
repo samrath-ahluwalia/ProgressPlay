@@ -1,0 +1,28 @@
+.theme-dropdown {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  padding: 0.5rem;
+  min-width: 200px;
+}
+
+.theme-btn {
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+  background-color: var(--secondary-bg);
+}
+
+.theme-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.theme-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+}

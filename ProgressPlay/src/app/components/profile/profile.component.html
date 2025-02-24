@@ -1,77 +1,47 @@
-<div class="d-flex flex-column align-items-center justify-content-center min-vh-100 bg-dark">
+<div class="profile-container d-flex flex-column align-items-center justify-content-center">
     <app-navbar></app-navbar>
   
     <!-- Profile Card -->
-    <div class="card bg-dark text-white p-4 rounded shadow-lg" style="width: 100%; max-width: 500px;">
+    <div class="profile-card card p-4 rounded shadow-lg" style="width: 100%; max-width: 500px;">
       <div class="d-flex flex-column align-items-center">
         <!-- Profile Image Section -->
         <div class="position-relative mb-4">
-          <img [src]="profileImageUrl" alt="Profile Picture" class="rounded-circle border border-3" style="width: 150px; height: 150px; object-fit: cover;">
+          <img [src]="profileImageUrl" alt="Profile Picture" class="profile-image rounded-circle border border-3 animate__animated animate__fadeInLeft" style="width: 150px; height: 150px; object-fit: cover;">
           
           <!-- Floating Edit Icon -->
-          <button class="btn btn-sm btn-outline-info position-absolute bottom-0 end-0 rounded-circle" data-bs-toggle="modal" data-bs-target="#imageUploadModal" style="width: 40px; height: 40px;">
+          <button class="profile-edit-button btn btn-sm btn-outline-info position-absolute bottom-0 end-0 rounded-circle" data-bs-toggle="modal" data-bs-target="#imageUploadModal" style="width: 40px; height: 40px;">
             <i class="fas fa-camera"></i>
           </button>
         </div>
   
         <!-- Username Section -->
-        <h3 class="text-white">{{ username }}'s Profile</h3>
-        <hr class="w-75 text-secondary my-3">
+        <h3 class="text-white animate__animated animate__fadeInUp" style="animation-delay: 0.2s">{{ username }}'s Profile</h3>
+        <hr class="profile-divider w-75 text-secondary my-3">
   
         <!-- User Information -->
         <div class="container text-center">
           <!-- Email Display with Edit Button -->
-          <div class="d-flex justify-content-between align-items-center px-3 mt-4 mb-3">
+          <div class="d-flex justify-content-between align-items-center px-3 mt-4 mb-3 animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
             <span class="fs-5">Username</span>
             <div class="d-flex align-items-center">
               <p class="mb-0">{{ username }}</p>
-              
             </div>
           </div>
-          <div class="d-flex justify-content-between align-items-center px-3 mt-4 mb-3">
+          <div class="d-flex justify-content-between align-items-center px-3 mt-4 mb-3 animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
             <span class="fs-5">Email</span>
             <div class="d-flex align-items-center">
               <p class="mb-0">{{ user.email }}</p>
-              
             </div>
           </div>
-          <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#changeEmail">
+          <button class="profile-edit-button btn btn-outline-light ms-2 animate__animated animate__fadeInUp" style="animation-delay: 0.5s" data-bs-toggle="modal" data-bs-target="#changeEmail">
             <i class="fas fa-pencil-alt"></i> Edit
           </button>
         </div>
       </div>
     </div>
-    <!-- <div class="container mb-3" style="margin-top: 9vh">
-    <div class="container text-dark-emphasis d-flex align-items-center justify-content-center flex-column  ">
-        <hr>
-        <h5 class="text-white text-center">
-            {{ username }}'s Profile</h5>
-        <hr>
-      </div>
-      <div class="container-fluid d-flex align-items-center justify-content-center mb-3 mt-4" style="height: 50vh; ">
-          <img class="border border-3 p-1" [src] = "profileImageUrl" alt="Image Preview" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-        <br>
-      </div>
-      <div class="d-flex justify-content-center mb-3">
-        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#imageUploadModal">Change Profile Picture</button>
-      </div>
-      <div class="d-flex justify-content-center mt-5">
-        <div style="width: 70vw;">
-          
-          <div class="d-flex align-items-center justify-content-between">
-              <p class="mb-0 fs-5 text-white">
-                {{this.user.email}}
-            </p>
-              <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#changeEmail"><i class="fas fa-pencil-alt"></i> Edit</button>
-          </div>
-        </div>
-      </div>
-      
-    </div> -->
-   
 
-
-  <div class="modal fade" id="imageUploadModal" tabindex="-1" role="dialog">
+    <!-- Image Upload Modal -->
+    <div class="modal fade" id="imageUploadModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -82,120 +52,119 @@
                     <input type="file" (change)="onFileChange($event)">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="uploadImage()">Upload Image</button>
+                    <button type="button" class="profile-edit-button btn btn-primary" data-bs-dismiss="modal" (click)="uploadImage()">Upload Image</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Success Modal -->
+    <div class="modal fade" id="uploadSuccessful" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Successful</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your profile picture has been updated successfully!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="profile-edit-button btn btn-primary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    
-        <div class="modal fade" id="uploadSuccessful" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="uploadSuccessModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title">Upload Successful</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismissSuccessModal()"></button>
             </div>
             <div class="modal-body">
-              ...
+                Your image has been successfully uploaded.
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Understood</button>
+                <button type="button" class="profile-edit-button btn btn-secondary" data-bs-dismiss="modal" (click)="dismissSuccessModal()" >Close</button>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- Success Modal -->
-<div class="modal" id="uploadSuccessModal" tabindex="-1" role="dialog" >
-<div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Upload Successful</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismissSuccessModal()"></button>
-        </div>
-        <div class="modal-body">
-            Your image has been successfully uploaded.
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="dismissSuccessModal()" >Close</button>
         </div>
     </div>
-</div>
-</div>
+    </div>
 
-<!-- Failure Modal -->
-<div class="modal" id="uploadFailureModal" tabindex="-1" role="dialog" >
+    <!-- Failure Modal -->
+    <div class="modal" id="uploadFailureModal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Failed</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismissFailureModal()"></button>
+                </div>
+                <div class="modal-body">
+                    There was an error uploading your image. Please try again.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="profile-edit-button btn btn-secondary" data-bs-dismiss="modal" (click)="dismissFailureModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="emailSuccessModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Successful</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+            </div>
+            <div class="modal-body">
+                Your email has been successfully updated.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="profile-edit-button btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal" id="emailFailureModal" tabindex="-1" role="dialog" >
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Upload Failed</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismissFailureModal()"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismissEmailFailureModal()"></button>
             </div>
             <div class="modal-body">
-                There was an error uploading your image. Please try again.
+                There was an error updating your email. Please try again.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="dismissFailureModal()">Close</button>
+                <button type="button" class="profile-edit-button btn btn-secondary" data-bs-dismiss="modal" (click)="dismissEmailFailureModal()" >Close</button>
             </div>
         </div>
     </div>
-</div>
+    </div>
 
-<div class="modal" id="emailSuccessModal" tabindex="-1" role="dialog" >
-<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal" id="changeEmail" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Upload Successful</h5>
+            <h5 class="modal-title">Email Change</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
         </div>
         <div class="modal-body">
-            Your email has been successfully updated.
+          <label for="emailChange" class="form-label">Enter email</label>
+          <input type="text" class="form-control" id="emailChange" [(ngModel)]="emailChange">
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+          <button type="button" class="profile-edit-button btn btn-primary" data-bs-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            
         </div>
     </div>
-</div>
-</div>
+    </div>
+    </div>
 
-<div class="modal" id="emailFailureModal" tabindex="-1" role="dialog" >
-<div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Upload Failed</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismissEmailFailureModal()"></button>
-        </div>
-        <div class="modal-body">
-            There was an error updating your email. Please try again.
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="dismissEmailFailureModal()" >Close</button>
-        </div>
-    </div>
-</div>
-</div>
-
-<div class="modal" id="changeEmail" tabindex="-1" role="dialog" >
-<div class="modal-dialog modal-dialog-centered" role="document">
-<div class="modal-content">
-    <div class="modal-header">
-        <h5 class="modal-title">Email Change</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-    </div>
-    <div class="modal-body">
-      <label for="emailChange" class="form-label">Enter email</label>
-      <input type="text" class="form-control" id="emailChange" [(ngModel)]="emailChange">
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        
-    </div>
-</div>
-</div>
-</div>
-
-  
-  
 </div>

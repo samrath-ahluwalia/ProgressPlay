@@ -11,4 +11,72 @@
     0% { transform: rotateY(0deg); }
     100% { transform: rotateY(360deg); }
   }
+
+:host {
+  display: block;
+  background-color: var(--primary-bg);
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+.container {
+  padding: 2rem;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.theme-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.theme-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.theme-btn.active {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+/* Animation for reward images */
+.animate-flip {
+  animation: flip 1s infinite;
+}
+
+@keyframes flip {
+  0% { transform: rotateY(0); }
+  100% { transform: rotateY(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .theme-switcher {
+    flex-wrap: wrap;
+  }
   
+  .theme-btn {
+    flex: 1 1 calc(50% - 1rem);
+    margin: 0.5rem;
+  }
+}

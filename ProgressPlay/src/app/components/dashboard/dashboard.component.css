@@ -5,66 +5,232 @@ html, body {
 }
 
 .container {
-  min-height: 100vh; /* Ensure it takes the full height of the viewport */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  background-color: var(--primary-bg);
+  animation: fadeInUp 0.2s ease-out forwards;
+  opacity: 0;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid var(--accent-color);
+  animation: fadeInUp 0.4s ease-out forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
 }
 
 .nav-tabs .nav-link {
-  font-weight: bold;
+  color: var(--text-muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  background-color: var(--secondary-bg);
+  transition: all 0.3s ease-in-out;
+  animation: fadeInUp 0.3s ease-out forwards;
+  opacity: 0;
 }
 
+.nav-tabs .nav-link:hover {
+  color: var(--text-color);
+  border-color: var(--accent-color);
+  background-color: var(--dark-accent);
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--text-color);
+  background-color: var(--dark-accent);
+  border-color: var(--primary-color);
+}
+
+.nav-link:nth-child(1) { animation-delay: 0.35s; }
+.nav-link:nth-child(2) { animation-delay: 0.4s; }
+.nav-link:nth-child(3) { animation-delay: 0.45s; }
+.nav-link:nth-child(4) { animation-delay: 0.5s; }
+
+/* Table Styles */
 .table {
-  margin-bottom: 0;
+  color: var(--text-color);
+  background-color: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+  transition: all 0.3s ease-in-out;
+  animation: slideInRight 0.4s ease-out forwards;
+  animation-delay: 0.55s;
+  opacity: 0;
 }
 
-.empty-state {
-  padding: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+.table thead {
+  background-color: var(--dark-accent);
+  animation: fadeInUp 0.3s ease-out forwards;
+  animation-delay: 0.6s;
+  opacity: 0;
 }
 
-.empty-state img {
-  width: 150px;
+.table thead th {
+  color: var(--text-color);
+  border-bottom: 2px solid var(--accent-color);
+  padding: 12px;
+  font-weight: 600;
 }
 
-.empty-state p {
-  font-size: 1.2rem;
-  color: #555;
+.table tbody td {
+  color: var(--text-color);
+  border-color: var(--border-color);
+  padding: 12px;
+  background-color: transparent;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--dark-accent);
 }
 
-.badge {
-  font-size: 1rem;
-  padding: 5px 10px;
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: var(--secondary-bg);
 }
 
-.btn-outline-primary {
-  margin-right: 10px;
+.table-striped tbody tr:hover {
+  background-color: var(--hover-color);
 }
 
-.btn-sm {
-  padding: 5px 10px;
-  font-size: 0.8rem;
+.table-success {
+  background-color: var(--secondary-bg) !important;
 }
 
+.table-success td {
+  color: var(--text-color) !important;
+}
+
+.table-container {
+  background-color: transparent;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Card Styles */
 .card {
-  margin-top: 20px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .card-body {
-  padding: 20px;
+  padding: 1.25rem;
 }
 
-canvas {
+.card-title {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.card-text {
+  color: var(--text-color);
+}
+
+/* Button Styles */
+.btn {
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline-success {
+  color: var(--text-color);
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--dark-accent);
+  border-color: var(--dark-accent);
+  color: var(--text-color);
+}
+
+.btn-outline-info {
+  color: var(--text-color);
+  border-color: var(--primary-color);
+  background-color: var(--primary-color);
+}
+
+.btn-outline-info:hover {
+  background-color: var(--dark-accent);
+  border-color: var(--dark-accent);
+  color: var(--text-color);
+}
+
+.btn-outline-danger {
+  color: white;
+  border-color: #dc3545;
+  background-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+  color: white;
+}
+
+/* Task action buttons */
+.task-actions .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  margin: 0 0.25rem;
+}
+
+/* Accordion Styles */
+.accordion-item {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+.accordion-button {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: background-color 0.2s ease-out;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: var(--dark-accent);
+  color: var(--text-color);
+}
+
+.accordion-button::after {
+  transition: transform 0.2s ease-out;
+}
+
+.accordion-collapse {
+  transition: height 0.2s ease-out;
+}
+
+.accordion-body {
+  transition: none;
+}
+
+.accordion-body .table,
+.accordion-body .table thead,
+.accordion-body .table tbody,
+.accordion-body .table tr {
+  animation: none;
+  opacity: 1;
+  transition: none;
+}
+
+.canvas {
   display: block;
   margin: 0 auto;
 }
@@ -76,6 +242,7 @@ canvas {
 .mt-3 {
   margin-top: 1rem;
 }
+
 .btn-group .btn-sm {
   padding: 6px 12px;
   font-size: 0.85rem;
@@ -83,4 +250,82 @@ canvas {
 
 .d-flex.justify-content-between {
   gap: 10px;
+}
+
+/* Empty state message */
+ng-template p {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.animate__animated {
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Enhanced Loading Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply enhanced animations to elements */
+.overview-card {
+  animation: scaleIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.overview-card:nth-child(1) { animation-delay: 0.1s; }
+.overview-card:nth-child(2) { animation-delay: 0.15s; }
+.overview-card:nth-child(3) { animation-delay: 0.2s; }
+.overview-card:nth-child(4) { animation-delay: 0.25s; }
+
+.tab-content {
+  animation: fadeInUp 0.4s ease-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+.table tbody tr {
+  transition: none;
+  opacity: 1;
+}
+
+.table tbody tr:nth-child(1),
+.table tbody tr:nth-child(2),
+.table tbody tr:nth-child(3),
+.table tbody tr:nth-child(4),
+.table tbody tr:nth-child(5) {
+  animation: none;
 }

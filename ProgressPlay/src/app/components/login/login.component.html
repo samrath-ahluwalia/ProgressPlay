@@ -1,16 +1,54 @@
-<div class="d-flex align-items-center justify-content-center vh-100" style="text-align:center;">
-        
-    <form class=" border border-light p-5 rounded-5 ">
-        <h4 class="mb-3 text-white">Sign in</h4>
-        <br>
-        <div class="mb-3">
-        <label for="username" class="form-label text-white p-3">Username</label>
-        <input type="text" class="form-control" data-bs-theme="dark" id="username" name="username" [(ngModel)]="loginForm.username">
-           </div>
-        <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label text-white p-3">Password</label>
-        <input type="password" class="form-control" data-bs-theme="dark" id="password" name="password" [(ngModel)]="loginForm.password">
+<div class="container-fluid vh-100 d-flex align-items-center animate__animated animate__fadeIn" style="animation-duration: 0.3s;">
+    <div class="row g-0 w-100 h-100">
+      <!-- Image Section -->
+      <div class="col-lg-8 col-md-8 col-sm-12 animate__animated animate__fadeIn" style="animation-duration: 0.3s;">
+        <img 
+          src="/images/pink.webp" 
+          class="img-fluid w-100 h-100" 
+          alt="Nature Background" 
+          style="object-fit: cover;" 
+        />
+      </div>
+  
+      <div class="col-lg-4 col-md-4 col-sm-12 d-flex flex-column justify-content-center px-4">
+        <div class="text-center animate__animated animate__fadeInRight" style="animation-duration: 0.3s;">
+          <h1 class="display-5 fw-bold text-white mb-3">Progress Play</h1>
+          <p class="mt-4 fs-5">
+            Login with your correct credentials!
+          </p>
         </div>
-        <button type="submit" (click)="handleLogin()" class="btn btn-primary mt-2" v-on:click="login"style="background-color: transparent; border: 2px solid white; color: white; padding: 10px 20px; font-size: 16px; cursor: pointer; transition: background-color 0.3s, color 0.3s;">Submit</button>
-    </form>
+        <!-- Login Form -->
+        <form class="p-4 rounded-4 mt-4 animate__animated animate__fadeInUp" style="animation-duration: 0.3s; animation-delay: 0.1s; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px);">
+          <h4 class="mb-4">Sign in</h4>
+          <div class="mb-4">
+            <label for="username" class="form-label">Username</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="username" 
+              name="username" 
+              [(ngModel)]="loginForm.username" 
+              placeholder="Enter your username"
+            />
+          </div>
+          <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="password" 
+              name="password" 
+              [(ngModel)]="loginForm.password" 
+              placeholder="Enter your password"
+            />
+          </div>
+          <button 
+            type="submit" 
+            class="btn w-100 py-2 mt-3" 
+            (click)="handleLogin()">
+            Sign In
+          </button>
+        </form>
+      </div>
+    </div>
 </div>
