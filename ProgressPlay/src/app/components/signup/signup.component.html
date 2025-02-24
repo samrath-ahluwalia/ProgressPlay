@@ -15,9 +15,36 @@
         <p class="mt-4 fs-5">
           Signup with your correct credentials!
         </p>
+<div class="container-fluid bg-dark text-light vh-100 d-flex align-items-center">
+  <div class="row g-0 w-100 h-100">
+    <div class="col-lg-8 col-md-8 col-sm-12">
+      <img 
+        src="/images/pink.webp" 
+        class="img-fluid w-100 h-100" 
+        alt="Nature Background" 
+        style="object-fit: cover;" 
+      />
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-12 d-flex flex-column justify-content-center px-4">
+      <div class="text-center">
+        <h1 class="display-5 fw-bold">Progress Play</h1>
+        <p class="mt-4 fs-5">
+          Signup with your correct credentials!
+        </p>
         </div>
         <form class="border border-light p-4 rounded-5 bg-transparent">
+        <form class="border border-light p-4 rounded-5 bg-transparent">
         <div class="mb-3">
+          <label for="username" class="form-label text-white">Username</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="username" 
+            name="username" 
+            [(ngModel)]="signupForm.userName" 
+            placeholder="Enter your username"
+          />
           <label for="username" class="form-label text-white">Username</label>
           <input 
             type="text" 
@@ -38,8 +65,26 @@
             [(ngModel)]="signupForm.email" 
             placeholder="Enter your email"
           />
+          <label for="email" class="form-label text-white">Email</label>
+          <input 
+            type="email" 
+            class="form-control" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="signupForm.email" 
+            placeholder="Enter your email"
+          />
         </div>
         <div class="mb-3">
+          <label for="password" class="form-label text-white">Password</label>
+          <input 
+            type="password" 
+            class="form-control" 
+            id="password" 
+            name="password" 
+            [(ngModel)]="signupForm.password" 
+            placeholder="Enter your password"
+          />
           <label for="password" class="form-label text-white">Password</label>
           <input 
             type="password" 
@@ -57,11 +102,20 @@
           Signup
         </button>
       </form>
+        <button 
+          type="submit" 
+          class="btn btn-outline-light w-100 py-2 mt-3" 
+          (click)="handleSignup()">
+          Signup
+        </button>
+      </form>
 
+      <div class="modal" id="signupSuccess" tabindex="-1" role="dialog">
       <div class="modal" id="signupSuccess" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
+              <h5 class="modal-title">Signup Successful</h5>
               <h5 class="modal-title">Signup Successful</h5>
               <button type="button" class="btn-close" (click)="dismissModal('signupSuccess')"></button>
             </div>
@@ -75,10 +129,12 @@
         </div>
       </div>
 
+
       <div class="modal" id="signupFail" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
+              <h5 class="modal-title">Signup Failed</h5>
               <h5 class="modal-title">Signup Failed</h5>
               <button type="button" class="btn-close" (click)="dismissModal('signupFail')"></button>
             </div>
