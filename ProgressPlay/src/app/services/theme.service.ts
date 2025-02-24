@@ -13,83 +13,104 @@ export class ThemeService {
   private themes: Record<Theme, Record<string, string>> = {
     dark: {
       '--primary-bg': '#1a1a1a',
+      '--primary-bg-rgb': '26, 26, 26',
       '--secondary-bg': '#2d2d2d',
       '--text-color': '#ffffff',
       '--text-muted': '#a0a0a0',
-      '--primary-color': '#007bff',
+      '--primary-color': '#333333',
       '--secondary-color': '#6c757d',
-      '--accent-color': '#17a2b8',
+      '--accent-color': '#4a4a4a',
+      '--dark-accent': '#1a1a1a',
       '--card-bg': '#333333',
       '--border-color': '#444444',
       '--hover-color': 'rgba(255, 255, 255, 0.1)'
     },
     turquoise: {
-      '--primary-bg': '#006d77',
-      '--secondary-bg': '#83c5be',
+      '--primary-bg': '#064d61',
+      '--primary-bg-rgb': '6, 77, 97',
+      '--secondary-bg': '#064d61',
       '--text-color': '#ffffff',
       '--text-muted': '#e6e6e6',
-      '--primary-color': '#00b4d8',
-      '--secondary-color': '#48cae4',
-      '--accent-color': '#90e0ef',
-      '--card-bg': '#005f73',
-      '--border-color': '#0077b6',
+      '--primary-color': '#00a6c0',
+      '--secondary-color': '#83c5be',
+      '--accent-color': '#20b2aa',
+      '--dark-accent': '#053844',
+      '--card-bg': '#006d77',
+      '--border-color': '#83c5be',
       '--hover-color': 'rgba(255, 255, 255, 0.1)'
     },
     red: {
       '--primary-bg': '#7f1d1d',
+      '--primary-bg-rgb': '127, 29, 29',
       '--secondary-bg': '#991b1b',
       '--text-color': '#ffffff',
       '--text-muted': '#e6e6e6',
       '--primary-color': '#dc2626',
       '--secondary-color': '#ef4444',
-      '--accent-color': '#f87171',
-      '--card-bg': '#b91c1c',
-      '--border-color': '#7f1d1d',
+      '--accent-color': '#b91c1c',
+      '--dark-accent': '#7f1d1d',
+      '--card-bg': '#991b1b',
+      '--border-color': '#ef4444',
       '--hover-color': 'rgba(255, 255, 255, 0.1)'
     },
     green: {
-      '--primary-bg': '#065f46',
-      '--secondary-bg': '#047857',
+      '--primary-bg': '#064e3b',
+      '--primary-bg-rgb': '6, 78, 59',
+      '--secondary-bg': '#065f46',
       '--text-color': '#ffffff',
       '--text-muted': '#e6e6e6',
-      '--primary-color': '#10b981',
-      '--secondary-color': '#34d399',
-      '--accent-color': '#6ee7b7',
-      '--card-bg': '#059669',
-      '--border-color': '#065f46',
+      '--primary-color': '#059669',
+      '--secondary-color': '#10b981',
+      '--accent-color': '#047857',
+      '--dark-accent': '#064e3b',
+      '--card-bg': '#065f46',
+      '--border-color': '#34d399',
       '--hover-color': 'rgba(255, 255, 255, 0.1)'
     },
     purple: {
       '--primary-bg': '#2d1b69',
+      '--primary-bg-rgb': '45, 27, 105',
       '--secondary-bg': '#1a103f',
       '--text-color': '#ffffff',
       '--text-muted': '#e6e6e6',
-      '--primary-color': '#9c27b0',
-      '--secondary-color': '#ba68c8',
-      '--accent-color': '#e1bee7',
-      '--card-bg': '#3d2b89',
-      '--border-color': '#4a148c',
+      '--primary-color': '#7c3aed',
+      '--secondary-color': '#8b5cf6',
+      '--accent-color': '#6d28d9',
+      '--dark-accent': '#4c1d95',
+      '--card-bg': '#5b21b6',
+      '--border-color': '#8b5cf6',
       '--hover-color': 'rgba(255, 255, 255, 0.1)'
     },
     blue: {
       '--primary-bg': '#1a237e',
+      '--primary-bg-rgb': '26, 35, 126',
       '--secondary-bg': '#0d47a1',
       '--text-color': '#ffffff',
       '--text-muted': '#e6e6e6',
-      '--primary-color': '#2196f3',
-      '--secondary-color': '#64b5f6',
-      '--accent-color': '#bbdefb',
-      '--card-bg': '#283593',
-      '--border-color': '#1565c0',
+      '--primary-color': '#1e88e5',
+      '--secondary-color': '#42a5f5',
+      '--accent-color': '#1976d2',
+      '--dark-accent': '#0d47a1',
+      '--card-bg': '#1565c0',
+      '--border-color': '#42a5f5',
       '--hover-color': 'rgba(255, 255, 255, 0.1)'
     }
   };
 
   constructor() {
-    this.loadTheme();
+    if (typeof window !== 'undefined') {
+      this.loadTheme();
+    } else {
+      // Set default theme for SSR
+      this.activeThemeSubject.next('dark');
+    }
   }
 
   setTheme(theme: Theme) {
+    if (typeof window === 'undefined') {
+      return; // Skip during SSR
+    }
+
     const root = document.documentElement;
     const themeVars = this.themes[theme];
     
@@ -101,14 +122,23 @@ export class ThemeService {
     document.body.classList.add('text-white');
     
     this.activeThemeSubject.next(theme);
-    localStorage.setItem('theme', theme);
+    try {
+      localStorage.setItem('theme', theme);
+    } catch (e) {
+      console.warn('localStorage is not available');
+    }
   }
 
   private loadTheme() {
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme && this.themes[savedTheme]) {
-      this.setTheme(savedTheme);
-    } else {
+    try {
+      const savedTheme = localStorage.getItem('theme') as Theme;
+      if (savedTheme && this.themes[savedTheme]) {
+        this.setTheme(savedTheme);
+      } else {
+        this.setTheme('dark');
+      }
+    } catch (e) {
+      console.warn('localStorage is not available');
       this.setTheme('dark');
     }
   }

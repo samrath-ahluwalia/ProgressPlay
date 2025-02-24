@@ -50,11 +50,17 @@ export class DashboardComponent implements OnInit{
   constructor(private _localService: LocalService, private _dashboardService: DashboardService){}
 
   ngOnInit(): void {
-    this.username = this._localService.get(Keys.ActiveUsername, false);
+    this.username = this._localService.get(Keys.ActiveUsername, false) || '';
+    if (!this.username) {
+      console.warn('No username found in local storage');
+      return;
+    }
     this.load();
   }
 
   load(){
+    if (!this.username) return;
+    
     this._dashboardService.getAllLists(this.username).subscribe((lists: any)=>{
       this.allTodoLists = lists;
       console.log(lists)

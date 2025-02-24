@@ -14,23 +14,60 @@
 /* Welcome section styles */
 .welcome {
   text-align: center;
-  padding: 20px;
-  background: linear-gradient(300deg, #032830, #000E1B, #73FBFD);
-  background-size: 200% 200%; 
-  animation: gradient-animation 30s ease infinite;
-  border-radius: 5px;
+  padding: 100px 20px;
+  width: 100vw;
+  background: linear-gradient(
+    135deg,
+    var(--dark-accent) 0%,
+    var(--primary-color) 25%,
+    var(--accent-color) 50%,
+    var(--primary-color) 75%,
+    var(--dark-accent) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradient-animation 10s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    var(--dark-accent) 0%,
+    transparent 30%,
+    var(--accent-color) 50%,
+    transparent 70%,
+    var(--dark-accent) 100%
+  );
+  opacity: 0.7;
+  animation: gradient-animation 8s ease infinite reverse;
 }
 
 .welcome h2 {
   color: white;
-  font-size: 24px;
-  font-style: normal;
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 20px;
+  letter-spacing: 2px;
 }
 
 .welcome h5 {
   color: white;
-  font-size: 18px;
+  font-size: 1.5rem;
   margin-top: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  position: relative;
+  z-index: 1;
 }
 
 html, body {
@@ -55,6 +92,9 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 #faqSection {

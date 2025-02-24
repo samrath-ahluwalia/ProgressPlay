@@ -4,7 +4,7 @@
   <!-- Overview Cards -->
   <div class="row mb-4">
     <div class="col-sm-3">
-      <div class="card border-primary animate__animated animate__fadeInUp">
+      <div class="card border-primary overview-card">
         <div class="card-body">
           <h5 class="card-title">Total Lists</h5>
           <p class="card-text">{{ allTodoLists.length }}</p>
@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="col-sm-3">
-      <div class="card border-success animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+      <div class="card border-success overview-card">
         <div class="card-body">
           <h5 class="card-title">Total Tasks</h5>
           <p class="card-text">{{ allTodoItems.length }}</p>
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="col-sm-3">
-      <div class="card border-warning animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+      <div class="card border-warning overview-card">
         <div class="card-body">
           <h5 class="card-title">Pending Tasks</h5>
           <p class="card-text">{{ pendingTasksCount }}</p>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="col-sm-3">
-      <div class="card border-danger animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+      <div class="card border-danger overview-card">
         <div class="card-body">
           <h5 class="card-title">Overdue</h5>
           <p class="card-text">{{ overdueTasksCount }}</p>
@@ -38,18 +38,18 @@
   </div>
 
   <!-- Tabs Navigation -->
-  <ul class="nav nav-tabs animate__animated animate__fadeIn" style="animation-delay: 0.4s" id="taskTabs" role="tablist">
+  <ul class="nav nav-tabs" id="taskTabs" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="create-list-tab" data-bs-toggle="tab" data-bs-target="#create-list" type="button" role="tab" aria-controls="create-list" aria-selected="false">Create List</button>
+      <button class="nav-link" [style.color]="'var(--text-color)'" [style.background-color]="'var(--secondary-bg)'" id="create-list-tab" data-bs-toggle="tab" data-bs-target="#create-list" type="button" role="tab" aria-controls="create-list" aria-selected="false">Create List</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="manage-lists-tab" data-bs-toggle="tab" data-bs-target="#manage-lists" type="button" role="tab" aria-controls="manage-lists" aria-selected="true">Manage Lists</button>
+      <button class="nav-link active" [style.color]="'var(--text-color)'" [style.background-color]="'var(--secondary-bg)'" id="manage-lists-tab" data-bs-toggle="tab" data-bs-target="#manage-lists" type="button" role="tab" aria-controls="manage-lists" aria-selected="true">Manage Lists</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="previous-lists-tab" data-bs-toggle="tab" data-bs-target="#previous-lists" type="button" role="tab" aria-controls="previous-lists" aria-selected="false">Previous Lists</button>
+      <button class="nav-link" [style.color]="'var(--text-color)'" [style.background-color]="'var(--secondary-bg)'" id="previous-lists-tab" data-bs-toggle="tab" data-bs-target="#previous-lists" type="button" role="tab" aria-controls="previous-lists" aria-selected="false">Previous Lists</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="progress-tab" data-bs-toggle="tab" data-bs-target="#progress" type="button" role="tab" aria-controls="progress" aria-selected="false">Progress</button>
+      <button class="nav-link" [style.color]="'var(--text-color)'" [style.background-color]="'var(--secondary-bg)'" id="progress-tab" data-bs-toggle="tab" data-bs-target="#progress" type="button" role="tab" aria-controls="progress" aria-selected="false">Progress</button>
     </li>
   </ul>
 
@@ -71,12 +71,10 @@
       </div>
     </div>
 
-
-
     <!-- Manage Lists Tab -->
     <div class="tab-pane fade show active" id="manage-lists" role="tabpanel" aria-labelledby="manage-lists-tab">
       <div *ngIf="!emptyLists; else noLists" id="listsContainer" class="accordion mt-3">
-        <div *ngFor="let list of allTodoLists; let i = index" class="accordion-item animate__animated animate__fadeInLeft" [style.animation-delay]="i * 0.1 + 's'">
+        <div *ngFor="let list of allTodoLists; let i = index" class="accordion-item">
           <h2 class="accordion-header d-flex align-items-center justify-content-between" [id]="'list' + list.id + '-heading'">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#list' + list.id + '-tasks'" aria-expanded="true" [attr.aria-controls]="'list' + list.id + '-tasks'" (click)="selectList(list)">
               {{ list.name }}
@@ -89,106 +87,99 @@
           </h2>
           <div [id]="'list' + list.id + '-tasks'" class="accordion-collapse collapse show" [attr.aria-labelledby]="'list' + list.id + '-heading'">
             <div class="accordion-body">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Deadline</th>
-                    <th scope="col">Urgency</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of getFilteredItems(list.id)" [class.table-success]="item.date_completed">
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.date_goal | date: 'MM/dd/yyyy h:mm a' : 'UTC' }}</td>
-                
-                    <!-- Urgency Badge -->
-                    <td>
-                      <span class="badge" [ngClass]="getUrgencyClass(getUrgency(item))">
-                        {{ getUrgency(item) }}
-                      </span>
-                    </td>
-                
-                    <!-- Action Buttons -->
-                    <td>
-                      <!-- Edit Button -->
-                      <button 
-                        class="btn btn-sm btn-outline-info" 
-                        [disabled]="item.date_completed"
-                        data-bs-toggle="modal" 
-                        data-bs-target="#editItem" 
-                        (click)="selectItem(item)"
-                        *ngIf="!item.date_completed">
-                        Edit
-                      </button>
-                
-                      <!-- Delete Button -->
-                      <button 
-                        class="btn btn-sm btn-outline-danger" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#deleteItem" 
-                        (click)="selectItem(item)">
-                        Delete
-                      </button>
-                
-                      <!-- Mark As Done Button -->
-                      <button 
-                        class="btn btn-sm btn-outline-success ms-2" 
-                        [disabled]="item.date_completed"
-                        (click)="selectItem(item)"
-                        data-bs-toggle="modal" 
-                        data-bs-target="#markItem"
-                        *ngIf="!item.date_completed">
-                        Mark As Done
-                      </button>
-                
-                      <!-- Completed Label -->
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Deadline</th>
+                      <th scope="col">Urgency</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of getFilteredItems(list.id)" [class.table-success]="item.date_completed">
+                      <td>{{ item.title }}</td>
+                      <td>{{ item.description }}</td>
+                      <td>{{ item.date_goal | date: 'MM/dd/yyyy h:mm a' : 'UTC' }}</td>
+                      <td>
+                        <span class="badge" [ngClass]="getUrgencyClass(getUrgency(item))">
+                          {{ getUrgency(item) }}
+                        </span>
+                      </td>
+                      <td class="d-flex gap-2">
+                        <button 
+                          class="btn btn-sm btn-outline-info" 
+                          [disabled]="item.date_completed"
+                          data-bs-toggle="modal" 
+                          data-bs-target="#editItem" 
+                          (click)="selectItem(item)"
+                          *ngIf="!item.date_completed">
+                          Edit
+                        </button>
+                        <button 
+                          class="btn btn-sm btn-outline-danger" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="#deleteItem" 
+                          (click)="selectItem(item)">
+                          Delete
+                        </button>
+                        <button 
+                          class="btn btn-sm btn-outline-success" 
+                          [disabled]="item.date_completed"
+                          (click)="selectItem(item)"
+                          data-bs-toggle="modal" 
+                          data-bs-target="#markItem"
+                          *ngIf="!item.date_completed">
+                          Mark As Done
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <ng-template #noLists>
-        <p>No lists available. Please create a new list.</p>
+        <div class="mt-4">
+          <p>No lists available. Please create a new list.</p>
+        </div>
       </ng-template>
     </div>
 
     <!-- Previous Lists Tab -->
     <div class="tab-pane fade" id="previous-lists" role="tabpanel" aria-labelledby="previous-lists-tab">
-      <div class="card mt-4 animate__animated animate__fadeInRight">
+      <div class="card mt-4">
         <div class="card-body">
           <h5 class="card-title">Previous Lists</h5>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th style="width: 15%;">S. No</th>
-                <th style="width: 45%;">List Name</th>
-                <th style="width: 40%;">Date Created</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let list of deletedTodoLists; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ list.name }}</td>
-                <td>{{ list.date_created | date: 'MM/dd/yyyy h:mm a' : 'UTC' }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th style="width: 15%;">S. No</th>
+                  <th style="width: 45%;">List Name</th>
+                  <th style="width: 40%;">Completed Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let list of deletedTodoLists; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ list.name }}</td>
+                  <td>{{ list.date_completed | date: 'MM/dd/yyyy h:mm a' : 'UTC' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
 
-    
-    
     <!-- Progress Tab -->
     <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
-      <div class="card mt-4 animate__animated animate__fadeInUp">
+      <div class="card mt-4">
         <div class="card-body">
           <div>
             <div style="display: flex; justify-content: center; align-items: center;">
